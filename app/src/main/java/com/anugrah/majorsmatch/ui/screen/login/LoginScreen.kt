@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 
@@ -53,7 +54,7 @@ fun LoginScreen(
 //        navController.navigate("home")
       },
       onRegister = {
-        navController.navigate("register")
+        navController.navigate(Screen.Register.route)
       }
     )
   }
