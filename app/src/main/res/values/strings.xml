@@ -3,4 +3,6 @@
     <string name="logo_app">Logo App</string>
     <string name="student_image">Student Image</string>
     <string name="get_started">Get Started</string>
+    <string name="image_slider">image slider</string>
+    <string name="top_university">Top University</string>
 </resources>

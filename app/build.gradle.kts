@@ -81,4 +81,9 @@ dependencies {
   implementation(libs.retrofit2.converter.scalars)
 
   implementation(libs.androidx.datastore.preferences)
+
+  implementation (libs.accompanist.pager)
+  implementation (libs.accompanist.pager.indicators)
+
+  implementation(libs.coil.compose)
 }
