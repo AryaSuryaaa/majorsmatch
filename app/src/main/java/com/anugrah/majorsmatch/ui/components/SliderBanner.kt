@@ -1,26 +1,23 @@
 package com.anugrah.majorsmatch.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.util.lerp
-import coil.Coil
-import coil.compose.AsyncImage
-import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universitasList
 import com.anugrah.majorsmatch.ui.theme.DIMENS_114dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
+import com.anugrah.majorsmatch.ui.theme.DIMENS_8dp
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
@@ -32,7 +29,7 @@ fun SliderBanner(
     modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
-    val imageSlider = universitasList
+    val universitys = universitasList
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -46,7 +43,7 @@ fun SliderBanner(
 
     Column {
         HorizontalPager(
-            count = imageSlider.size,
+            count = universitys.size,
             state = pagerState,
             contentPadding = PaddingValues(horizontal = DIMENS_16dp),
             modifier = modifier
@@ -75,12 +72,16 @@ fun SliderBanner(
                         )
                     }
             ) {
-                AsyncImage(
-                    model = imageSlider[page].imgBanner,
-                    contentDescription = stringResource(R.string.image_slider),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(DIMENS_16dp),
+                    horizontalAlignment = Alignment.Start,
+                ) {
+                    Text(universitys[page].nama, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(DIMENS_8dp))
+                    Text(universitys[page].deskripsi, modifier = Modifier.weight(1f), overflow = TextOverflow.Ellipsis)
+                }
             }
         }
 

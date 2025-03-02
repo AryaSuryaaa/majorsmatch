@@ -16,19 +16,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
@@ -38,8 +44,8 @@ import com.anugrah.majorsmatch.ui.components.CardUniversity
 import com.anugrah.majorsmatch.ui.components.SliderBanner
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
-import com.anugrah.majorsmatch.ui.theme.DIMENS_2dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_8dp
+import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -59,9 +65,14 @@ fun HomeScreenContent(listUniversity: List<Universitas>, modifier: Modifier = Mo
         .verticalScroll(rememberScrollState())
         .padding(padding),
     ) {
+      Spacer(modifier = Modifier.height(DIMENS_16dp))
       HeaderHome()
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       TopUniversity(listUniversity)
+      Spacer(modifier = Modifier.height(DIMENS_16dp))
+      ButtonSurvey()
+      Spacer(modifier = Modifier.height(DIMENS_16dp))
+      Testimonials()
     }
   }
 }
@@ -112,5 +123,80 @@ fun TopUniversity(
         )
       }
     }
+  }
+}
+
+@Composable
+fun ButtonSurvey(modifier: Modifier = Modifier) {
+  Column(modifier = modifier
+    .fillMaxWidth()
+    .padding(horizontal = DIMENS_16dp)
+  ) {
+    Text(
+      stringResource(R.string.talent_survey),
+      style = MaterialTheme.typography.bodyLarge.copy(
+        fontWeight = FontWeight.Bold
+      ),
+    )
+    Spacer(modifier = Modifier.height(DIMENS_8dp))
+
+    Box(modifier = Modifier.fillMaxSize()) {
+      Card(
+        shape = RoundedCornerShape(DIMENS_12dp),
+      ) {
+        Image(
+          painter = painterResource(id = R.drawable.bg_survey),
+          contentDescription = null,
+          contentScale = ContentScale.Crop,
+          modifier = Modifier.fillMaxSize(),
+        )
+      }
+      Box(
+        modifier = Modifier
+          .align(Alignment.BottomEnd)
+          .padding(bottom = DIMENS_8dp, end = DIMENS_16dp)
+      ) {
+        Button(
+          onClick = {},
+          colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f)
+          )
+          ) {
+          Row(
+            horizontalArrangement = Arrangement.spacedBy(DIMENS_8dp),
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            Text("GO")
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+              contentDescription = null
+            )
+          }
+        }
+      }
+    }
+  }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Testimonials() {
+  Column {
+    Text(
+      text = stringResource(R.string.what_they_say),
+      modifier = Modifier.padding(horizontal = DIMENS_16dp),
+      fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(DIMENS_8dp))
+    SliderBanner()
+  }
+}
+
+@Preview
+@Composable
+private fun HomScreenPrev() {
+  MajorsmatchTheme {
+    val universitas = universitasList
+    HomeScreenContent(universitas)
   }
 }
