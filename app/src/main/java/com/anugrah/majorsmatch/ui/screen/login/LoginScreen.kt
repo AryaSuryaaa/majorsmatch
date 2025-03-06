@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.anugrah.majorsmatch.navigation.graph.Graph
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
@@ -53,7 +52,7 @@ fun LoginScreen(
       onPasswordChange = { viewModel.setPassword(it) },
       onLogin = {
         navController.popBackStack()
-        navController.navigate(Graph.MAIN)
+        navController.navigate(Screen.Home.route)
       },
       onRegister = {
         navController.navigate(Screen.Register.route)
