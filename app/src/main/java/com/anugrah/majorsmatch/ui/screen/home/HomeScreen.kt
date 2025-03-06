@@ -48,7 +48,6 @@ import com.anugrah.majorsmatch.ui.theme.DIMENS_8dp
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
   navHostController: NavHostController
