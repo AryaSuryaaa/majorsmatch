@@ -24,7 +24,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,15 +32,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 
 @Composable
 fun RegisterScreen(
-  navController: NavController,
+  navHostController: NavController,
   registerViewModel: RegisterViewModel = hiltViewModel(),
   modifier: Modifier = Modifier
 ) {
@@ -51,7 +48,7 @@ fun RegisterScreen(
   ) {
     RegisterContent(
       registerUiState = uiState,
-      navController = navController,
+      navController = navHostController,
       onUsernameChange = { registerViewModel.setUsername(it) },
       onEmailChange = { registerViewModel.setEmail(it) },
       onPasswordChange = { registerViewModel.setPassword(it) },
@@ -60,7 +57,7 @@ fun RegisterScreen(
         registerViewModel.register()
       },
       onLogin = {
-        navController.popBackStack()
+        navHostController.popBackStack()
       }
     )
   }
@@ -221,6 +218,6 @@ fun RegisterContent(
 @Composable
 private fun RegisterScreenPreview() {
   MajorsmatchTheme {
-    RegisterScreen(navController = NavController(LocalContext.current))
+    RegisterScreen(navHostController = NavController(LocalContext.current))
   }
 }

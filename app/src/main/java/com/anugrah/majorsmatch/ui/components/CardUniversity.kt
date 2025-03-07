@@ -28,6 +28,7 @@ import com.anugrah.majorsmatch.ui.theme.GrayBorderStroke
 fun CardUniversity(
   imgBanner: String,
   acronym: String,
+  onClick: () -> Unit = {},
   modifier: Modifier = Modifier
 ) {
   Box(
@@ -36,6 +37,7 @@ fun CardUniversity(
       .height(162.dp),
   ) {
     Card(
+      onClick = onClick,
       modifier = Modifier.fillMaxSize(),
       shape = RoundedCornerShape(DIMENS_12dp),
       border = BorderStroke(width = 1.dp, color = GrayBorderStroke),

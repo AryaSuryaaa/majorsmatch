@@ -34,23 +34,20 @@ import com.anugrah.majorsmatch.ui.theme.DIMENS_40dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_68dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_90dp
 import com.anugrah.majorsmatch.ui.theme.GilroyFontFamily
-import com.anugrah.majorsmatch.ui.theme.GrayTextColor
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
-import com.anugrah.majorsmatch.ui.theme.TEXT_SIZE_16sp
 import com.anugrah.majorsmatch.ui.theme.TEXT_SIZE_18sp
-import com.anugrah.majorsmatch.ui.theme.TEXT_SIZE_49sp
 
 @Composable
 fun OnBoardingScreen(
   modifier: Modifier = Modifier,
-  navController: NavHostController,
+  navHostController: NavHostController,
   onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
 ) {
   OnBoarding(
     modifier = modifier,
     onClick ={
-      navController.popBackStack()
-      navController.navigate(Screen.Login.route)
+      navHostController.popBackStack()
+      navHostController.navigate(Screen.Login.route)
       onBoardingViewModel.saveOnBoardingState(isCompleted = true)
     }
   )

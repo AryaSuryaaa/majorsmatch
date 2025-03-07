@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-  navController: NavHostController,
+  navHostController: NavHostController,
   splashViewModel: SplashViewModel = hiltViewModel()
 ) {
   val onBoardingIsCompleted by splashViewModel.onBoardingIsCompleted.collectAsState()
@@ -47,10 +47,10 @@ fun SplashScreen(
       ),
     )
     delay(1200L)
-    navController.popBackStack()
+    navHostController.popBackStack()
 
-    if (onBoardingIsCompleted) navController.navigate(Screen.Login.route)
-    else navController.navigate(Screen.OnBoarding.route)
+    if (onBoardingIsCompleted) navHostController.navigate(Screen.Login.route)
+    else navHostController.navigate(Screen.OnBoarding.route)
   }
 
   Splash(scale = scale.value)

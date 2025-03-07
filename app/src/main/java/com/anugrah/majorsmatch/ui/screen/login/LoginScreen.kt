@@ -38,7 +38,7 @@ import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 
 @Composable
 fun LoginScreen(
-  navController: NavController,
+  navHostController: NavController,
   viewModel: LoginViewModel = hiltViewModel(),
   modifier: Modifier = Modifier
 ) {
@@ -51,11 +51,11 @@ fun LoginScreen(
       onUsernameChange = { viewModel.setEmail(it) },
       onPasswordChange = { viewModel.setPassword(it) },
       onLogin = {
-        navController.popBackStack()
-        navController.navigate(Screen.Home.route)
+        navHostController.popBackStack()
+        navHostController.navigate(Screen.Home.route)
       },
       onRegister = {
-        navController.navigate(Screen.Register.route)
+        navHostController.navigate(Screen.Register.route)
       }
     )
   }
@@ -159,6 +159,6 @@ fun LoginContent(
 @Composable
 private fun LoginScreenPreview() {
   MajorsmatchTheme {
-    LoginScreen(navController = NavController(LocalContext.current))
+    LoginScreen(navHostController = NavController(LocalContext.current))
   }
 }

@@ -7,4 +7,7 @@
     <string name="top_university">Top University</string>
     <string name="talent_survey">Talent Survey</string>
     <string name="what_they_say">What they say</string>
+    <string name="description">Description</string>
+    <string name="faculties_and_programs">Faculties and Programs</string>
+    <string name="visit_website">Visit Website</string>
 </resources>

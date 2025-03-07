@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universitasList
 import com.anugrah.majorsmatch.domain.model.Universitas
+import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.CardUniversity
 import com.anugrah.majorsmatch.ui.components.SliderBanner
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
@@ -53,11 +54,20 @@ fun HomeScreen(
   navHostController: NavHostController
 ) {
   val universitas = universitasList
-  HomeScreenContent(listUniversity = universitas)
+  HomeScreenContent(
+    listUniversity = universitas,
+    toDetailUniversity = { universityId ->
+      navHostController.navigate(
+        Screen.DetailUniversity.withArgs(
+          universityId
+        )
+      )
+    }
+  )
 }
 
 @Composable
-fun HomeScreenContent(listUniversity: List<Universitas>, modifier: Modifier = Modifier) {
+fun HomeScreenContent(listUniversity: List<Universitas>, toDetailUniversity: (Int) -> Unit, modifier: Modifier = Modifier) {
   Scaffold { padding ->
     Column(
       modifier = modifier
@@ -67,7 +77,12 @@ fun HomeScreenContent(listUniversity: List<Universitas>, modifier: Modifier = Mo
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       HeaderHome()
       Spacer(modifier = Modifier.height(DIMENS_16dp))
-      TopUniversity(listUniversity)
+      TopUniversity(
+        listUniversity,
+        toDetailUniversity = { universityId ->
+          toDetailUniversity(universityId)
+        }
+      )
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       ButtonSurvey()
       Spacer(modifier = Modifier.height(DIMENS_16dp))
@@ -98,6 +113,7 @@ fun HeaderHome(modifier: Modifier = Modifier) {
 @Composable
 fun TopUniversity(
   university: List<Universitas>,
+  toDetailUniversity: (Int) -> Unit = {},
   modifier: Modifier = Modifier
 ) {
   Column(modifier = modifier
@@ -118,7 +134,10 @@ fun TopUniversity(
       items(university) {
         CardUniversity(
           imgBanner = it.imgBanner,
-          acronym = it.acronym
+          acronym = it.acronym,
+          onClick = {
+            toDetailUniversity(it.id)
+          }
         )
       }
     }
@@ -196,6 +215,6 @@ fun Testimonials() {
 private fun HomScreenPrev() {
   MajorsmatchTheme {
     val universitas = universitasList
-    HomeScreenContent(universitas)
+    HomeScreenContent(universitas, {})
   }
 }
