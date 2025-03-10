@@ -2,7 +2,8 @@ package com.anugrah.majorsmatch.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +53,7 @@ fun SliderBanner(
         ) { page ->
             Card(
                 shape = RoundedCornerShape(DIMENS_12dp),
+
                 modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -89,7 +91,9 @@ fun SliderBanner(
             pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(DIMENS_16dp)
+                .padding(DIMENS_16dp),
+            activeColor = MaterialTheme.colorScheme.onBackground,
+
         )
     }
 }

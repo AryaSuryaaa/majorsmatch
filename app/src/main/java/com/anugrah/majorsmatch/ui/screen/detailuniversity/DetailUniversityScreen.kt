@@ -1,8 +1,6 @@
 package com.anugrah.majorsmatch.ui.screen.detailuniversity
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -40,6 +38,7 @@ import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universitasList
 import com.anugrah.majorsmatch.domain.model.Universitas
 import com.anugrah.majorsmatch.ui.common.UiState
+import com.anugrah.majorsmatch.ui.components.CircleBackButton
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_4dp
@@ -67,7 +66,10 @@ fun DetailUniversityScreen(
     }
     is UiState.Success -> {
       val data = (uiState as UiState.Success<DetailUniversityUiState>).data
-      DetailsUniversityContent(data.university!!)
+      DetailsUniversityContent(
+        onBackClick =  { navHostController.popBackStack() },
+        university = data.university!!
+      )
     }
 
     is UiState.Error -> {
@@ -77,28 +79,39 @@ fun DetailUniversityScreen(
   }
 }
 
+
 @Composable
 fun DetailsUniversityContent(
+  onBackClick: () -> Unit,
   university: Universitas
 ) {
+  LazyColumn {
+    item {
+      HeaderBox(onBackClick = onBackClick, university =  university)
+      Description(description = university.deskripsi)
+    }
+    item {
+      Faculties(university = university)
+    }
+    item {
+      ButtonToWebsite(onClick = { /*TODO*/ })
+    }
+  }
+}
+
+@Composable
+fun HeaderBox(onBackClick: () -> Unit, university: Universitas) {
   Box(
-    modifier = Modifier
-      .fillMaxSize()
-      .scrollable(
-        rememberScrollState(),
-        orientation = Orientation.Vertical,
-      ),
+    modifier = Modifier.fillMaxWidth()
   ) {
     BannerImage(university.imgBanner)
-    Column(
-      modifier = Modifier.fillMaxSize(),
-      horizontalAlignment = Alignment.CenterHorizontally
+    CircleBackButton(onClick = onBackClick, modifier = Modifier.padding(top = DIMENS_16dp, start = DIMENS_8dp))
+    Box(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 138.dp)
     ) {
-      Spacer(modifier = Modifier.height(138.dp))
       HeaderDetail(university.nama, university.imgLogo)
-      Description(description= university.deskripsi)
-      Faculties(university = university)
-      ButtonToWebsite(onClick = { /*TODO*/ })
     }
   }
 }
@@ -236,6 +249,7 @@ private fun DetailUniversityScreenPreview() {
   val universitas = universitasList
   MajorsmatchTheme {
     DetailsUniversityContent(
+      onBackClick = {},
       university =  universitas[0]
     )
   }
@@ -247,6 +261,7 @@ private fun DetailUniversityScreenPreviewDark() {
   val universitas = universitasList
   MajorsmatchTheme {
     DetailsUniversityContent(
+      onBackClick = {},
       university =  universitas[0]
     )
   }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +41,7 @@ fun CardUniversity(
       onClick = onClick,
       modifier = Modifier.fillMaxSize(),
       shape = RoundedCornerShape(DIMENS_12dp),
-      border = BorderStroke(width = 1.dp, color = GrayBorderStroke),
+      border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onBackground),
     ) {
       AsyncImage(
         model = imgBanner,

@@ -7,7 +7,7 @@ val universitasList = listOf(
   Universitas(
     id = 1,
     nama = "Universitas Indonesia",
-    imgLogo = "https://www.academicindonesia.com/wp-content/uploads/2016/09/Logo-UI.png",
+    imgLogo = "https://www.pngkey.com/png/full/406-4061740_makara-ui-png-logo-universitas-indonesia.png",
     imgBanner = "https://awsimages.detik.net.id/community/media/visual/2019/02/12/43b5e043-b813-47c9-b0c1-3c8fa14bf6ae_169.jpeg?w=1200",
     deskripsi = "Universitas Teknologi Nusantara adalah institusi pendidikan tinggi yang berfokus pada inovasi dan teknologi untuk menciptakan lulusan berkualitas tinggi.",
     acronym = "UI",
@@ -26,7 +26,7 @@ val universitasList = listOf(
     id = 2,
     nama = "Institut Teknologi Bandung",
     imgLogo = "https://palmoilina.asia/wp-content/uploads/2023/01/Institut-Teknologi-Bandung.webp",
-    imgBanner = "https://atourin.obs.ap-southeast-3.myhuaweicloud.com/images/destination/bandung/institut-teknologi-bandung-profile1695282317.jpeg?x-image-process=image/resize,p_100,limit_1/imageslim",
+    imgBanner = "https://itb.ac.id/files/cover/170125-Kolam-Intel.jpg",
     deskripsi = "Universitas Sains dan Humaniora menggabungkan ilmu sains dan sosial untuk menciptakan lulusan yang kompetitif dalam berbagai bidang.",
     acronym = "ITB",
     fakultas = listOf(
