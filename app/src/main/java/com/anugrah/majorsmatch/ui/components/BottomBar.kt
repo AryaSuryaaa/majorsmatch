@@ -1,13 +1,9 @@
 package com.anugrah.majorsmatch.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,14 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.navigation.screen.NavigationItem
 import com.anugrah.majorsmatch.navigation.screen.Screen
 
@@ -39,17 +34,17 @@ fun BottomBarApp(
 
         val navigationItem = listOf(
             NavigationItem(
-                title = "Home",
+                title = stringResource(R.string.home),
                 icon = Icons.Default.Home,
                 screen = Screen.Home
             ),
             NavigationItem(
-                title = "Explore",
+                title = stringResource(R.string.explore),
                 icon = Icons.Default.Search,
                 screen = Screen.Explore
             ),
             NavigationItem(
-                title = "Profile",
+                title = stringResource(R.string.profile),
                 icon = Icons.Default.Person,
                 screen = Screen.Profile
             )

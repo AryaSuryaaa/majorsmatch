@@ -2,7 +2,6 @@ package com.anugrah.majorsmatch.ui.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -17,10 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.anugrah.majorsmatch.R
 
 @Composable
 fun PasswordField(
@@ -55,7 +56,10 @@ fun PasswordField(
     trailingIcon = {
       val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
       IconButton(onClick = { passwordVisible = !passwordVisible }) {
-        Icon(imageVector = image, contentDescription = if (passwordVisible) "Hide password" else "Show password")
+        Icon(
+          imageVector = image,
+          contentDescription = if (passwordVisible) stringResource(R.string.hide_password) else stringResource(R.string.show_password)
+        )
       }
     },
     keyboardOptions = keyboardOptions,

@@ -24,6 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
@@ -67,8 +69,7 @@ fun LoginContent(
   onUsernameChange: (String) -> Unit = {},
   onPasswordChange: (String) -> Unit = {},
   onLogin: () -> Unit = {},
-  onRegister: () -> Unit = {},
-  modifier: Modifier = Modifier
+  onRegister: () -> Unit = {}
 ) {
   val frEmail = FocusRequester()
   val frPassword = FocusRequester()
@@ -80,7 +81,7 @@ fun LoginContent(
       .padding(16.dp),
   ) {
     Text(
-      text = "Welcome to Majorsmatch",
+      text = stringResource(R.string.welcome_to_majorsmatch),
       textAlign = TextAlign.Center,
       fontSize = 21.sp,
       modifier = Modifier
@@ -97,7 +98,7 @@ fun LoginContent(
         .fillMaxWidth(),
     )
     OutlinedTextField(
-      label = { Text(text = "Email") },
+      label = { Text(text = stringResource(R.string.email)) },
       value = loginUiState.email,
       onValueChange = { onUsernameChange(it) },
       maxLines = 1,
@@ -118,7 +119,9 @@ fun LoginContent(
       label = "Password",
       value = loginUiState.password,
       onValueChange = { onPasswordChange(it) },
-      modifier = Modifier.fillMaxWidth().focusRequester(frPassword),
+      modifier = Modifier
+        .fillMaxWidth()
+        .focusRequester(frPassword),
       onDone = {
         keyboardController?.hide()
       }
@@ -132,7 +135,7 @@ fun LoginContent(
         onLogin()
       }
     ) {
-      Text(text = "Login")
+      Text(text = stringResource(R.string.login))
     }
 
     Row(
@@ -141,7 +144,7 @@ fun LoginContent(
       modifier = Modifier.fillMaxWidth()
     ) {
       Text(
-        text = "Don't have an account?"
+        text = stringResource(R.string.don_t_have_an_account)
       )
 
       TextButton(
@@ -149,7 +152,7 @@ fun LoginContent(
           onRegister()
         }
       ) {
-        Text("Register here")
+        Text(stringResource(R.string.register_here))
       }
     }
   }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.util.lerp
-import com.anugrah.majorsmatch.data.dummy.universitasList
+import com.anugrah.majorsmatch.data.dummy.universityLists
 import com.anugrah.majorsmatch.ui.theme.DIMENS_114dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
@@ -30,7 +30,7 @@ fun SliderBanner(
     modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
-    val universitys = universitasList
+    val universitys = universityLists
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -80,9 +80,9 @@ fun SliderBanner(
                         .padding(DIMENS_16dp),
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    Text(universitys[page].nama, fontWeight = FontWeight.Bold)
+                    Text(universitys[page].name, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(DIMENS_8dp))
-                    Text(universitys[page].deskripsi, modifier = Modifier.weight(1f), overflow = TextOverflow.Ellipsis)
+                    Text(universitys[page].description, modifier = Modifier.weight(1f), overflow = TextOverflow.Ellipsis)
                 }
             }
         }

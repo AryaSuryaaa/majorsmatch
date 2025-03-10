@@ -1,11 +1,12 @@
 package com.anugrah.majorsmatch.domain.model
 
-data class Universitas(
+data class University(
   val id: Int,
-  val nama: String,
+  val name: String,
   val imgLogo: String,
   val imgBanner: String,
-  val deskripsi: String,
+  val description: String,
   val acronym: String,
-  val fakultas: List<Fakultas>
+  val faculty: List<Faculty>,
+  val website: String
 )

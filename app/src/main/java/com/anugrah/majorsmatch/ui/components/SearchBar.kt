@@ -11,7 +11,10 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.anugrah.majorsmatch.R
+import com.anugrah.majorsmatch.ui.theme.DIMENS_4dp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,11 +36,13 @@ fun SearchBarComponent(
       )
     },
     placeholder = {
-      Text("Search petak")
+      Text(stringResource(R.string.search_petak))
     },
     colors = SearchBarDefaults.colors(
       containerColor = MaterialTheme.colorScheme.background
     ),
+
+    shadowElevation = DIMENS_4dp,
     onActiveChange = {},
     modifier = Modifier.fillMaxWidth()
   ) { }

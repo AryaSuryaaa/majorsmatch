@@ -25,11 +25,12 @@ import com.anugrah.majorsmatch.ui.theme.GrayBorderStroke
 
 @Composable
 fun ExploreCard(
+  onClick: () -> Unit = {},
   imgLogo: String,
-  universityName: String,
-  modifier: Modifier = Modifier
+  universityName: String
 ) {
   Card(
+    onClick =  onClick,
     shape = RoundedCornerShape(DIMENS_12dp),
     colors = CardDefaults.cardColors(
       containerColor = MaterialTheme.colorScheme.background

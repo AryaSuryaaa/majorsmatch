@@ -1,7 +1,5 @@
 package com.anugrah.majorsmatch.ui.screen.explore
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.anugrah.majorsmatch.ui.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

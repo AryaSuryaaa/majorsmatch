@@ -1,5 +1,7 @@
 package com.anugrah.majorsmatch.ui.screen.detailuniversity
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,8 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.anugrah.majorsmatch.R
-import com.anugrah.majorsmatch.data.dummy.universitasList
-import com.anugrah.majorsmatch.domain.model.Universitas
+import com.anugrah.majorsmatch.data.dummy.universityLists
+import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.ui.common.UiState
 import com.anugrah.majorsmatch.ui.components.CircleBackButton
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
@@ -53,6 +56,7 @@ fun DetailUniversityScreen(
   viewModel: DetailUniversityViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsState()
+  val context = LocalContext.current
 
   LaunchedEffect(universityId) {
     viewModel.getUniversityById(universityId)
@@ -68,6 +72,10 @@ fun DetailUniversityScreen(
       val data = (uiState as UiState.Success<DetailUniversityUiState>).data
       DetailsUniversityContent(
         onBackClick =  { navHostController.popBackStack() },
+        toWebsiteClick = {
+          val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.university!!.website))
+          context.startActivity(intent)
+        },
         university = data.university!!
       )
     }
@@ -83,24 +91,25 @@ fun DetailUniversityScreen(
 @Composable
 fun DetailsUniversityContent(
   onBackClick: () -> Unit,
-  university: Universitas
+  toWebsiteClick: () -> Unit = {},
+  university: University
 ) {
   LazyColumn {
     item {
       HeaderBox(onBackClick = onBackClick, university =  university)
-      Description(description = university.deskripsi)
+      Description(description = university.description)
     }
     item {
       Faculties(university = university)
     }
     item {
-      ButtonToWebsite(onClick = { /*TODO*/ })
+      ButtonToWebsite(onClick = toWebsiteClick)
     }
   }
 }
 
 @Composable
-fun HeaderBox(onBackClick: () -> Unit, university: Universitas) {
+fun HeaderBox(onBackClick: () -> Unit, university: University) {
   Box(
     modifier = Modifier.fillMaxWidth()
   ) {
@@ -111,7 +120,7 @@ fun HeaderBox(onBackClick: () -> Unit, university: Universitas) {
         .fillMaxWidth()
         .padding(top = 138.dp)
     ) {
-      HeaderDetail(university.nama, university.imgLogo)
+      HeaderDetail(university.name, university.imgLogo)
     }
   }
 }
@@ -131,8 +140,7 @@ fun BannerImage(imgBanner: String) {
 @Composable
 fun HeaderDetail(
   universityName: String,
-  imgLogo: String,
-  modifier: Modifier = Modifier
+  imgLogo: String
 ) {
   Row(
     modifier = Modifier
@@ -178,7 +186,7 @@ fun HeaderDetail(
 }
 
 @Composable
-fun Description(description: String, modifier: Modifier = Modifier) {
+fun Description(description: String) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -191,7 +199,7 @@ fun Description(description: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Faculties(university: Universitas) {
+fun Faculties(university: University) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
@@ -199,8 +207,8 @@ fun Faculties(university: Universitas) {
   ) {
     Text(text = stringResource(R.string.faculties_and_programs), fontWeight = FontWeight.Bold)
     Spacer(modifier = Modifier.height(DIMENS_4dp))
-    university.fakultas.forEach {
-      FacultyItem(faculty = it.nama, programs = it.jurusan)
+    university.faculty.forEach {
+      FacultyItem(faculty = it.name, programs = it.major)
     }
   }
 }
@@ -246,11 +254,11 @@ fun ButtonToWebsite(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun DetailUniversityScreenPreview() {
-  val universitas = universitasList
+  val university = universityLists
   MajorsmatchTheme {
     DetailsUniversityContent(
       onBackClick = {},
-      university =  universitas[0]
+      university =  university[0]
     )
   }
 }
@@ -258,11 +266,11 @@ private fun DetailUniversityScreenPreview() {
 @Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun DetailUniversityScreenPreviewDark() {
-  val universitas = universitasList
+  val university = universityLists
   MajorsmatchTheme {
     DetailsUniversityContent(
       onBackClick = {},
-      university =  universitas[0]
+      university =  university[0]
     )
   }
 }

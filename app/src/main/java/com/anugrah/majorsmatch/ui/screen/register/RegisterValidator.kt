@@ -18,18 +18,18 @@ fun String.isValidPassword(): Boolean {
 
 object Validator {
     fun validateName(name: String): String? {
-        return if (name.isBlank()) "Nama tidak boleh kosong" else null
+        return if (name.isBlank()) "Name cannot be empty" else null
     }
 
     fun validateEmail(email: String): String? {
-        return if (!email.isValidEmail()) "Email tidak valid" else null
+        return if (!email.isValidEmail()) "Invalid email address" else null
     }
 
     fun validatePassword(password: String): String? {
-        return if (!password.isValidPassword()) "Password harus minimal 8 karakter, mengandung huruf besar, kecil, dan angka" else null
+        return if (!password.isValidPassword()) "Password must be at least 8 characters long and contain uppercase letters, lowercase letters, and numbers" else null
     }
 
     fun validateConfirmPassword(password: String, confirmPassword: String): String? {
-        return if (password != confirmPassword) "Password tidak cocok" else null
+        return if (password != confirmPassword) "Passwords do not match" else null
     }
 }

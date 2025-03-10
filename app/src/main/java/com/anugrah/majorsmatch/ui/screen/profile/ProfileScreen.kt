@@ -3,7 +3,6 @@ package com.anugrah.majorsmatch.ui.screen.profile
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,26 +14,22 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.DynamicDialog
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
@@ -43,7 +38,6 @@ import com.anugrah.majorsmatch.utils.showToast
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
-  modifier: Modifier = Modifier,
   navHostController: NavHostController
 ) {
   Column(
@@ -69,12 +63,12 @@ fun AccountContent(
   val (showLogOutDialog, setShowLogOutDialog) = remember { mutableStateOf(false) }
   val context = LocalContext.current
 
-  // Dialog untuk Log out
+  // Dialog Log out
   DynamicDialog(
     showDialog = showLogOutDialog,
     onDismiss = { setShowLogOutDialog(false) },
-    title = "Log Out",
-    message = "Are you sure you want to log out?",
+    title = stringResource(R.string.log_out),
+    message = stringResource(R.string.are_you_sure_you_want_to_log_out),
     onConfirm = {
       onLogout()
     },
@@ -105,25 +99,25 @@ fun AccountContent(
 
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
-    // Bagian "Account Settings"
-    SectionTitle(title = "Account Settings")
+    // "Account Settings"
+    SectionTitle(title = stringResource(R.string.account_settings))
 
     AccountItem(
       title = "Language",
-      onClick = { context.showToast("This feature is not available now") }
+      onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) }
     )
 
-    ToggleItem(title = "Push notifications", checked = false, onCheckedChange = {})
-    ToggleItem(title = "Dark mode", checked = false, onCheckedChange = {})
+    ToggleItem(title = stringResource(R.string.push_notifications), checked = false, onCheckedChange = {})
+    ToggleItem(title = stringResource(R.string.dark_mode), checked = false, onCheckedChange = {})
 
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
-    // Bagian "More"
-    SectionTitle(title = "More")
+    // "More"
+    SectionTitle(title = stringResource(R.string.more))
 
-    AccountItem(title = "About App", onClick = { context.showToast("This feature is not available now") })
-    AccountItem(title = "Privacy policy", onClick = { context.showToast("This feature is not available now") })
-    AccountItem(title = "Terms and conditions", onClick = { context.showToast("This feature is not available now") })
+    AccountItem(title = stringResource(R.string.about_app), onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) })
+    AccountItem(title = stringResource(R.string.privacy_policy), onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) })
+    AccountItem(title = stringResource(R.string.terms_and_conditions), onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) })
 
     Spacer(modifier = Modifier.height(16.dp))
 

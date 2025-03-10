@@ -78,12 +78,12 @@ fun OnBoarding(
         horizontalAlignment = Alignment.CenterHorizontally
       ) {
         Text(
-          text = "Welcome to Majorsmatch",
+          text = stringResource(R.string.welcome_to_majorsmatch),
           style = MaterialTheme.typography.titleLarge.copy(color = Color.White, textAlign = TextAlign.Center)
         )
 
         Text(
-          text = "Get yout match majority with our app",
+          text = stringResource(R.string.get_your_match_majority_with_our_app),
           style = MaterialTheme.typography.titleMedium.copy(color = Color.White, textAlign = TextAlign.Center)
         )
 

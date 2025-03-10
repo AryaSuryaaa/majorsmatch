@@ -24,6 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 
@@ -48,7 +50,6 @@ fun RegisterScreen(
   ) {
     RegisterContent(
       registerUiState = uiState,
-      navController = navHostController,
       onUsernameChange = { registerViewModel.setUsername(it) },
       onEmailChange = { registerViewModel.setEmail(it) },
       onPasswordChange = { registerViewModel.setPassword(it) },
@@ -66,14 +67,12 @@ fun RegisterScreen(
 @Composable
 fun RegisterContent(
   registerUiState: RegisterUiState,
-  navController: NavController,
   onUsernameChange: (String) -> Unit = {},
   onEmailChange: (String) -> Unit = {},
   onPasswordChange: (String) -> Unit = {},
   onConfirmPasswordChange: (String) -> Unit = {},
   onRegister: () -> Unit = {},
-  onLogin: () -> Unit = {},
-  modifier: Modifier = Modifier
+  onLogin: () -> Unit = {}
 ) {
   val frUsername = FocusRequester()
   val frEmail = FocusRequester()
@@ -89,7 +88,7 @@ fun RegisterContent(
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     Text(
-      text = "Welcome to Majorsmatch",
+      text = stringResource(R.string.welcome_to_majorsmatch),
       textAlign = TextAlign.Center,
       fontSize = 21.sp,
       modifier = Modifier
@@ -97,7 +96,7 @@ fun RegisterContent(
         .fillMaxWidth(),
     )
     Text(
-      text = "Register".uppercase(),
+      text = stringResource(R.string.register).uppercase(),
       textAlign = TextAlign.Center,
       fontSize = 21.sp,
       fontWeight = FontWeight.Bold,
@@ -107,7 +106,7 @@ fun RegisterContent(
 
     )
     OutlinedTextField(
-      label = { Text(text = "Username") },
+      label = { Text(text = stringResource(R.string.username)) },
       value = registerUiState.username,
       onValueChange = { onUsernameChange(it) },
       maxLines = 1,
@@ -129,7 +128,7 @@ fun RegisterContent(
     )
 
     OutlinedTextField(
-      label = { Text(text = "Email") },
+      label = { Text(text = stringResource(R.string.email)) },
       value = registerUiState.email,
       onValueChange = { onEmailChange(it) },
       maxLines = 1,
@@ -151,7 +150,7 @@ fun RegisterContent(
     )
 
     PasswordField(
-      label = "Password",
+      label = stringResource(R.string.password),
       value = registerUiState.password,
       onValueChange = { onPasswordChange(it) },
       isError = registerUiState.passwordError != null,
@@ -167,7 +166,7 @@ fun RegisterContent(
     )
 
     PasswordField(
-      label = "Confirm password",
+      label = stringResource(R.string.confirm_password),
       value = registerUiState.confirmPassword,
       onValueChange = { onConfirmPasswordChange(it) },
       isError = registerUiState.confirmPasswordError != null,
@@ -193,7 +192,7 @@ fun RegisterContent(
       modifier = Modifier
         .fillMaxWidth(),
     ) {
-      Text(text = "Register")
+      Text(text = stringResource(R.string.register))
     }
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -201,14 +200,14 @@ fun RegisterContent(
     Row(
       verticalAlignment = Alignment.CenterVertically
     ) {
-      Text("Have any account?")
+      Text(stringResource(R.string.have_any_account))
       TextButton(
         onClick = {
           onLogin()
         },
         modifier = Modifier
       ) {
-        Text("login here")
+        Text(stringResource(R.string.login_here))
       }
     }
   }

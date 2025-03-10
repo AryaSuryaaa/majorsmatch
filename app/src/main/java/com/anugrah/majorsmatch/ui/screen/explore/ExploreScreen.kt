@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,8 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.anugrah.majorsmatch.data.dummy.universitasList
-import com.anugrah.majorsmatch.domain.model.Universitas
+import com.anugrah.majorsmatch.data.dummy.universityLists
+import com.anugrah.majorsmatch.domain.model.University
+import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.common.UiState
 import com.anugrah.majorsmatch.ui.components.ExploreCard
 import com.anugrah.majorsmatch.ui.components.SearchBarComponent
@@ -36,7 +35,7 @@ fun ExploreScreen(
   navHostController: NavHostController,
   viewModel: ExploreViewModel = hiltViewModel()
 ) {
-  val universitas = universitasList
+  val universityList = universityLists
   val uiState by viewModel.uiState.collectAsState()
 
   when (uiState) {
@@ -50,7 +49,14 @@ fun ExploreScreen(
       ExploreContent(
         query = data.query,
         onQueryChange = { viewModel.updateQuery(it) },
-        listUniversity = universitas
+        toDetailUniversity = { universityId ->
+          navHostController.navigate(
+            Screen.DetailUniversity.withArgs(
+              universityId
+            )
+          )
+        },
+        listUniversity = universityList
       )
     }
     is UiState.Error -> {
@@ -63,8 +69,9 @@ fun ExploreScreen(
 @Composable
 fun ExploreContent(
   query: String,
+  toDetailUniversity: (Int) -> Unit,
   onQueryChange: (String) -> Unit,
-  listUniversity: List<Universitas>,
+  listUniversity: List<University>,
   ) {
   Column(
     modifier = Modifier
@@ -85,8 +92,9 @@ fun ExploreContent(
     ) {
       items(listUniversity.size) {
         ExploreCard(
+          onClick = { toDetailUniversity(listUniversity[it].id) },
           imgLogo = listUniversity[it].imgLogo,
-          universityName = listUniversity[it].nama
+          universityName = listUniversity[it].name
         )
       }
     }
@@ -96,10 +104,11 @@ fun ExploreContent(
 @Preview
 @Composable
 private fun ExploreScreenPrev() {
-  val universitas = universitasList
+  val universityList = universityLists
   ExploreContent(
     query = "Dummy Query",
     onQueryChange = {},
-    listUniversity = universitas
+    toDetailUniversity = {},
+    listUniversity = universityList
   )
 }

@@ -1,6 +1,5 @@
 package com.anugrah.majorsmatch.ui.screen.home
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,8 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
-import com.anugrah.majorsmatch.data.dummy.universitasList
-import com.anugrah.majorsmatch.domain.model.Universitas
+import com.anugrah.majorsmatch.data.dummy.universityLists
+import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.CardUniversity
 import com.anugrah.majorsmatch.ui.components.SliderBanner
@@ -53,9 +52,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun HomeScreen(
   navHostController: NavHostController
 ) {
-  val universitas = universitasList
+  val universityList = universityLists
   HomeScreenContent(
-    listUniversity = universitas,
+    listUniversity = universityList,
     toDetailUniversity = { universityId ->
       navHostController.navigate(
         Screen.DetailUniversity.withArgs(
@@ -67,7 +66,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeScreenContent(listUniversity: List<Universitas>, toDetailUniversity: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun HomeScreenContent(listUniversity: List<University>, toDetailUniversity: (Int) -> Unit, modifier: Modifier = Modifier) {
   Scaffold { padding ->
     Column(
       modifier = modifier
@@ -100,7 +99,7 @@ fun HeaderHome(modifier: Modifier = Modifier) {
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Text("Selamat datang (nama)!") // ganti nama
+    Text("Selamat datang (nama)!") // change Name
     Image(
       painter = painterResource(id = R.drawable.logo_app),
       contentDescription = "logo app",
@@ -112,7 +111,7 @@ fun HeaderHome(modifier: Modifier = Modifier) {
 
 @Composable
 fun TopUniversity(
-  university: List<Universitas>,
+  university: List<University>,
   toDetailUniversity: (Int) -> Unit = {},
   modifier: Modifier = Modifier
 ) {
@@ -214,7 +213,7 @@ fun Testimonials() {
 @Composable
 private fun HomScreenPrev() {
   MajorsmatchTheme {
-    val universitas = universitasList
-    HomeScreenContent(universitas, {})
+    val universityList = universityLists
+    HomeScreenContent(universityList, {})
   }
 }
