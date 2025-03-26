@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Button
@@ -61,12 +62,20 @@ fun HomeScreen(
           universityId
         )
       )
+    },
+    toSurvey = {
+      navHostController.navigate(Screen.Survey.route)
     }
   )
 }
 
 @Composable
-fun HomeScreenContent(listUniversity: List<University>, toDetailUniversity: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun HomeScreenContent(
+  listUniversity: List<University>,
+  toDetailUniversity: (Int) -> Unit,
+  toSurvey: () -> Unit = {},
+  modifier: Modifier = Modifier
+) {
   Scaffold { padding ->
     Column(
       modifier = modifier
@@ -83,7 +92,7 @@ fun HomeScreenContent(listUniversity: List<University>, toDetailUniversity: (Int
         }
       )
       Spacer(modifier = Modifier.height(DIMENS_16dp))
-      ButtonSurvey()
+      ButtonSurvey(toSurvey = toSurvey)
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       Testimonials()
     }
@@ -144,7 +153,10 @@ fun TopUniversity(
 }
 
 @Composable
-fun ButtonSurvey(modifier: Modifier = Modifier) {
+fun ButtonSurvey(
+  toSurvey: () -> Unit = {},
+  modifier: Modifier = Modifier
+) {
   Column(modifier = modifier
     .fillMaxWidth()
     .padding(horizontal = DIMENS_16dp)
@@ -174,7 +186,7 @@ fun ButtonSurvey(modifier: Modifier = Modifier) {
           .padding(bottom = DIMENS_8dp, end = DIMENS_16dp)
       ) {
         Button(
-          onClick = {},
+          onClick = toSurvey,
           colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f)
           )

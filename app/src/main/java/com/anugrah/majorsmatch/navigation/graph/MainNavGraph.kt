@@ -15,6 +15,7 @@ import com.anugrah.majorsmatch.ui.screen.onboarding.OnBoardingScreen
 import com.anugrah.majorsmatch.ui.screen.profile.ProfileScreen
 import com.anugrah.majorsmatch.ui.screen.register.RegisterScreen
 import com.anugrah.majorsmatch.ui.screen.splash.SplashScreen
+import com.anugrah.majorsmatch.ui.screen.survey.SurveyScreen
 
 @Composable
 fun MainNavGraph(navController: NavHostController, startDestination: String = Screen.Splash.route) {
@@ -55,6 +56,9 @@ fun MainNavGraph(navController: NavHostController, startDestination: String = Sc
     ) { backStackEntry ->
       val universityId = backStackEntry.arguments?.getInt("universityId") ?: 0
       DetailUniversityScreen(universityId = universityId, navHostController = navController)
+    }
+    composable(route = Screen.Survey.route) {
+      SurveyScreen(navHostController = navController)
     }
   }
 }

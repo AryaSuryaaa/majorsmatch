@@ -13,4 +13,5 @@ sealed class Screen(val route: String) {
       return "detail_university_screen/$universityId"
     }
   }
+  data object Survey : Screen("survey_screen")
 }
