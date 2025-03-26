@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
@@ -5,6 +7,13 @@ plugins {
   alias(libs.plugins.googleDevtoolsKsp)
   alias(libs.plugins.daggerHilt)
 }
+
+fun getProperties(key: String): String? {
+  val properties = Properties()
+  properties.load(project.rootProject.file("local.properties").inputStream())
+  return properties.getProperty(key)
+}
+
 
 android {
   namespace = "com.anugrah.majorsmatch"
@@ -18,6 +27,7 @@ android {
     versionName = "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    buildConfigField("String", "BASE_URL", "\"${getProperties("baseUrl")}\"")
   }
 
   buildTypes {
@@ -35,6 +45,7 @@ android {
   }
   buildFeatures {
     compose = true
+    buildConfig = true
   }
 }
 

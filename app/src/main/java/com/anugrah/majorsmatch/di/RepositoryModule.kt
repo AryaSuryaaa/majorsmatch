@@ -4,6 +4,8 @@ import android.content.Context
 import com.anugrah.majorsmatch.data.repository.OnBoardingOperationImpl
 import com.anugrah.majorsmatch.data.repository.Repository
 import com.anugrah.majorsmatch.domain.UseCases
+import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
+import com.anugrah.majorsmatch.domain.repository.IRepository
 import com.anugrah.majorsmatch.domain.repository.OnBoardingOperations
 import com.anugrah.majorsmatch.domain.usecase.readonboarding.ReadOnBoardingUseCase
 import com.anugrah.majorsmatch.domain.usecase.saveonboarding.SaveOnBoardingUseCase
@@ -31,5 +33,14 @@ class RepositoryModule {
       saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
       readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
     )
+  }
+
+  @Provides
+  @Singleton
+  fun provideRepository(
+    dataStoreManager: OnBoardingOperations,
+    remoteDataSource: IRemoteDataSource,
+  ): IRepository {
+    return Repository(dataStoreManager, remoteDataSource)
   }
 }

@@ -1,5 +1,6 @@
 package com.anugrah.majorsmatch.ui.screen.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,9 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.anugrah.majorsmatch.MainActivity
 import com.anugrah.majorsmatch.R
+import com.anugrah.majorsmatch.common.ResultState
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
+import com.anugrah.majorsmatch.utils.showToast
 
 @Composable
 fun RegisterScreen(
@@ -45,11 +51,35 @@ fun RegisterScreen(
   modifier: Modifier = Modifier
 ) {
   val uiState by registerViewModel.uiState.collectAsState()
+  val context = LocalContext.current
+
+  LaunchedEffect(uiState.registerResult) {
+    val mainActivity = context as MainActivity
+
+    when (uiState.registerResult) {
+      is ResultState.Loading -> {
+        mainActivity.loaderState.value = true
+      }
+      is ResultState.Success -> {
+        mainActivity.loaderState.value = false
+        context.showToast("Register Success")
+        navHostController.popBackStack()
+      }
+      is ResultState.Error -> {
+        mainActivity.loaderState.value = false
+        val error = (uiState.registerResult as ResultState.Error).error
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+      }
+      else -> Unit
+    }
+  }
+
   Box(
     modifier = modifier.fillMaxSize()
   ) {
     RegisterContent(
       registerUiState = uiState,
+      onFullNameChange = registerViewModel::setFullName,
       onUsernameChange = { registerViewModel.setUsername(it) },
       onEmailChange = { registerViewModel.setEmail(it) },
       onPasswordChange = { registerViewModel.setPassword(it) },
@@ -67,6 +97,7 @@ fun RegisterScreen(
 @Composable
 fun RegisterContent(
   registerUiState: RegisterUiState,
+  onFullNameChange: (String) -> Unit = {},
   onUsernameChange: (String) -> Unit = {},
   onEmailChange: (String) -> Unit = {},
   onPasswordChange: (String) -> Unit = {},
@@ -74,6 +105,7 @@ fun RegisterContent(
   onRegister: () -> Unit = {},
   onLogin: () -> Unit = {}
 ) {
+  val frFullName = FocusRequester()
   val frUsername = FocusRequester()
   val frEmail = FocusRequester()
   val frPassword = FocusRequester()
@@ -104,6 +136,27 @@ fun RegisterContent(
         .padding(bottom = 16.dp)
         .fillMaxWidth(),
 
+    )
+    OutlinedTextField(
+      label = { Text(text = stringResource(R.string.full_name)) },
+      value = registerUiState.fullName,
+      onValueChange = { onFullNameChange(it) },
+      maxLines = 1,
+      isError = registerUiState.fullNameError != null,
+      supportingText = {
+        if (registerUiState.fullNameError != null) {
+          Text(text = registerUiState.fullNameError, color = MaterialTheme.colorScheme.error)
+        }
+      },
+      modifier = Modifier
+        .fillMaxWidth()
+        .focusRequester(frFullName),
+      keyboardOptions = KeyboardOptions.Default.copy(
+        imeAction = ImeAction.Next
+      ),
+      keyboardActions = KeyboardActions(
+        onNext = { frUsername.requestFocus() }
+      ),
     )
     OutlinedTextField(
       label = { Text(text = stringResource(R.string.username)) },

@@ -17,6 +17,9 @@ fun String.isValidPassword(): Boolean {
 }
 
 object Validator {
+    fun validateFullName(fullName: String): String? {
+        return if (fullName.isBlank()) "Full name cannot be empty" else null
+    }
     fun validateName(name: String): String? {
         return if (name.isBlank()) "Name cannot be empty" else null
     }
