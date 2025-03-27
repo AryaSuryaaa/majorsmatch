@@ -40,4 +40,7 @@
     <string name="have_any_account">Have any account?</string>
     <string name="login_here">login here</string>
     <string name="full_name">Full Name</string>
+    <string name="language">Language</string>
+    <string name="feed_back">Feed back</string>
+    <string name="give_feedback">Give feedback</string>
 </resources>

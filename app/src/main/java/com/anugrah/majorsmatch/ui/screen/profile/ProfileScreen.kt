@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,8 +30,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUser
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.DynamicDialog
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
@@ -38,26 +42,35 @@ import com.anugrah.majorsmatch.utils.showToast
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
-  navHostController: NavHostController
+  navHostController: NavHostController,
+  viewModel: AccountViewModel = hiltViewModel()
 ) {
+  val uiState by viewModel.uiState.collectAsState()
+
   Column(
     modifier = Modifier.fillMaxSize()
   ) {
-    AccountContent(
-      onLogout = {
-        navHostController.navigate(Screen.Login.route) {
-          popUpTo(navHostController.graph.id) {
-            inclusive = true
+    uiState.dataUser?.let {
+      AccountContent(
+        dataUser = it,
+        onLogout = {
+          navHostController.navigate(Screen.Login.route) {
+            popUpTo(navHostController.graph.id) {
+              inclusive = true
+            }
           }
-        }
-      }
-    )
+        },
+        toFeedback = {}
+      )
+    }
   }
 }
 
 @Composable
 fun AccountContent(
-  onLogout: () -> Unit
+  onLogout: () -> Unit,
+  dataUser: DataUser,
+  toFeedback: () -> Unit
 ) {
 
   val (showLogOutDialog, setShowLogOutDialog) = remember { mutableStateOf(false) }
@@ -88,11 +101,11 @@ fun AccountContent(
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       Text(
-        text = "Surya",
+        text = dataUser.fullName,
         style = MaterialTheme.typography.titleLarge
       )
       Text(
-        text = "email",
+        text = dataUser.email,
         style = MaterialTheme.typography.bodyMedium,
       )
     }
@@ -103,12 +116,19 @@ fun AccountContent(
     SectionTitle(title = stringResource(R.string.account_settings))
 
     AccountItem(
-      title = "Language",
+      title = stringResource(R.string.language),
       onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) }
     )
 
     ToggleItem(title = stringResource(R.string.push_notifications), checked = false, onCheckedChange = {})
     ToggleItem(title = stringResource(R.string.dark_mode), checked = false, onCheckedChange = {})
+
+    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+    // "Feed back"
+    SectionTitle(title = stringResource(R.string.feed_back))
+
+    AccountItem(title = stringResource(R.string.give_feedback), onClick = toFeedback)
 
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -185,6 +205,6 @@ fun LogoutButton(onClick: () -> Unit) {
 @Composable
 private fun ProfileScreenPreview() {
   MajorsmatchTheme {
-    AccountContent{}
+    AccountContent({}, dataUser = DataUser(1, "anugrah", "anugrah@gmail.com", "angrh")) {}
   }
 }
