@@ -1,6 +1,7 @@
 package com.anugrah.majorsmatch.data.dummy
 
 import com.anugrah.majorsmatch.domain.model.Faculty
+import com.anugrah.majorsmatch.domain.model.Major
 import com.anugrah.majorsmatch.domain.model.University
 
 val universityLists = listOf(
@@ -14,11 +15,50 @@ val universityLists = listOf(
     faculty = listOf(
       Faculty(
         name = "Fakultas Teknik",
-        major = listOf("Teknik Informatika", "Teknik Elektro", "Teknik Mesin", "Teknik Sipil")
+        code = "FT",
+        majors = listOf(
+          Major(
+            majorName = "Teknik Informatika",
+            majorCode = "TI",
+            facultyCode = "FT"
+          ),
+          Major(
+            majorName = "Teknik Elektro",
+            majorCode = "TE",
+            facultyCode = "FT"
+          ),
+          Major(
+            majorName = "Teknik Mesin",
+            majorCode = "TM",
+            facultyCode = "FT"
+          ),
+          Major(
+            majorName = "Teknik Sipil",
+            majorCode = "TS",
+            facultyCode = "FT"
+          )
+        )
       ),
       Faculty(
         name = "Fakultas Ekonomi dan Bisnis",
-        major = listOf("Manajemen", "Akuntansi", "Ekonomi Pembangunan")
+        code = "FEB",
+        majors = listOf(
+          Major(
+            majorName = "Manajemen",
+            majorCode = "M",
+            facultyCode = "FEB"
+          ),
+          Major(
+            majorName = "Akuntansi",
+            majorCode = "A",
+            facultyCode = "FEB"
+          ),
+          Major(
+            majorName = "Ekonomi Pembangunan",
+            majorCode = "EP",
+            facultyCode = "FEB"
+          )
+        )
       )
     ),
     website = "https://www.ui.ac.id/"
@@ -33,11 +73,50 @@ val universityLists = listOf(
     faculty = listOf(
       Faculty(
         name = "Fakultas Sains dan Matematika",
-        major = listOf("Matematika", "Fisika", "Kimia", "Biologi")
+        code = "FSM",
+        majors = listOf(
+          Major(
+            majorName = "Matematika",
+            majorCode = "MTK",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Fisika",
+            majorCode = "FSK",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Kimia",
+            majorCode = "K",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Biologi",
+            majorCode = "B",
+            facultyCode = "FSM"
+          )
+        )
       ),
       Faculty(
         name = "Fakultas Ilmu Sosial",
-        major = listOf("Ilmu Komunikasi", "Sosiologi", "Ilmu Politik")
+        code = "FIS",
+        majors = listOf(
+          Major(
+            majorName = "Ilmu Komunikasi",
+            majorCode = "IK",
+            facultyCode = "FIS"
+          ),
+          Major(
+            majorName = "Sosiologi",
+            majorCode = "S",
+            facultyCode = "FIS"
+          ),
+          Major(
+            majorName = "Ilmu Politik",
+            majorCode = "IP",
+            facultyCode = "FIS"
+          )
+        )
       )
     ),
     website = "https://www.itb.ac.id/"
@@ -51,28 +130,51 @@ val universityLists = listOf(
     acronym = "ITS",
     faculty = listOf(
       Faculty(
-        name = "Fakultas Ilmu Komputer",
-        major = listOf("Sistem Informasi", "Teknik Informatika", "Rekayasa Perangkat Lunak")
+        name = "Fakultas Sains dan Matematika",
+        code = "FSM",
+        majors = listOf(
+          Major(
+            majorName = "Matematika",
+            majorCode = "M",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Fisika",
+            majorCode = "F",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Kimia",
+            majorCode = "K",
+            facultyCode = "FSM"
+          ),
+          Major(
+            majorName = "Biologi",
+            majorCode = "B",
+            facultyCode = "FSM"
+          )
+        )
       ),
       Faculty(
-        name = "Fakultas Desain dan Kreatif",
-        major = listOf("Desain Komunikasi Visual", "Seni Rupa", "Multimedia")
-      ),
-      Faculty(
-        name = "Fakultas Ilmu Komputer",
-        major = listOf("Sistem Informasi", "Teknik Informatika", "Rekayasa Perangkat Lunak")
-      ),
-      Faculty(
-        name = "Fakultas Desain dan Kreatif",
-        major = listOf("Desain Komunikasi Visual", "Seni Rupa", "Multimedia")
-      ),
-      Faculty(
-        name = "Fakultas Ilmu Komputer",
-        major = listOf("Sistem Informasi", "Teknik Informatika", "Rekayasa Perangkat Lunak")
-      ),
-      Faculty(
-        name = "Fakultas Desain dan Kreatif",
-        major = listOf("Desain Komunikasi Visual", "Seni Rupa", "Multimedia")
+        name = "Fakultas Ilmu Sosial",
+        code = "FIS",
+        majors = listOf(
+          Major(
+            majorName = "Ilmu Komunikasi",
+            majorCode = "IK",
+            facultyCode = "FIS"
+          ),
+          Major(
+            majorName = "Sosiologi",
+            majorCode = "S",
+            facultyCode = "FIS"
+          ),
+          Major(
+            majorName = "Ilmu Politik",
+            majorCode = "IP",
+            facultyCode = "FIS"
+          )
+        )
       )
     ),
     website = "https://www.its.ac.id/"

@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Button
@@ -28,17 +27,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universityLists
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUser
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.CardUniversity
@@ -51,26 +57,38 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 
 @Composable
 fun HomeScreen(
-  navHostController: NavHostController
+  navHostController: NavHostController,
+  viewModel: HomeViewModel = hiltViewModel()
 ) {
-  val universityList = universityLists
-  HomeScreenContent(
-    listUniversity = universityList,
-    toDetailUniversity = { universityId ->
-      navHostController.navigate(
-        Screen.DetailUniversity.withArgs(
-          universityId
+  val uiState by viewModel.uiState.collectAsState()
+  val context = LocalContext.current
+
+  LaunchedEffect(Unit) {
+    viewModel.getUserSession()
+    viewModel.getUniversities()
+  }
+
+  uiState.userSession?.let {
+    HomeScreenContent(
+      user = it,
+      listUniversity = uiState.universities,
+      toDetailUniversity = { universityId ->
+        navHostController.navigate(
+          Screen.DetailUniversity.withArgs(
+            universityId
+          )
         )
-      )
-    },
-    toSurvey = {
-      navHostController.navigate(Screen.Survey.route)
-    }
-  )
+      },
+      toSurvey = {
+        navHostController.navigate(Screen.Survey.route)
+      }
+    )
+  }
 }
 
 @Composable
 fun HomeScreenContent(
+  user: DataLogin,
   listUniversity: List<University>,
   toDetailUniversity: (Int) -> Unit,
   toSurvey: () -> Unit = {},
@@ -83,7 +101,7 @@ fun HomeScreenContent(
         .padding(padding),
     ) {
       Spacer(modifier = Modifier.height(DIMENS_16dp))
-      HeaderHome()
+      HeaderHome(name = user.dataUser.username)
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       TopUniversity(
         listUniversity,
@@ -100,7 +118,7 @@ fun HomeScreenContent(
 }
 
 @Composable
-fun HeaderHome(modifier: Modifier = Modifier) {
+fun HeaderHome(name: String, modifier: Modifier = Modifier) {
   Row(
     modifier = modifier
       .fillMaxWidth()
@@ -108,7 +126,7 @@ fun HeaderHome(modifier: Modifier = Modifier) {
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Text("Selamat datang (nama)!") // change Name
+    Text("Selamat datang $name!") // change Name
     Image(
       painter = painterResource(id = R.drawable.logo_app),
       contentDescription = "logo app",
@@ -226,6 +244,18 @@ fun Testimonials() {
 private fun HomScreenPrev() {
   MajorsmatchTheme {
     val universityList = universityLists
-    HomeScreenContent(universityList, {})
+    HomeScreenContent(
+      user = DataLogin(
+          DataUser(
+            username = "Femmy",
+            email = "william.henry.harrison@example-pet-store.com",
+            id = 1,
+            fullName = "Mas Femmy"
+          ),
+        token = ""
+      ),
+      listUniversity = universityList,
+      toDetailUniversity = {},
+    )
   }
 }

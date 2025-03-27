@@ -5,8 +5,11 @@ import com.anugrah.majorsmatch.data.remote.api.ApiService
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.GetUniversitiesResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
+import com.anugrah.majorsmatch.domain.model.University
+import com.anugrah.majorsmatch.domain.model.toUniversity
 import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -26,8 +29,6 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     emit(response)
-  }.catch { e ->
-    throw IOException(e.localizedMessage ?: "Periksa jaringan Anda")
   }
 
   override fun login(param: LoginRequest): Flow<LoginResponse> = flow<LoginResponse> {
@@ -35,4 +36,12 @@ class RemoteDataSourceImpl @Inject constructor(
     dataStore.saveUserSession(response.dataLogin)
     emit(response)
   }
+
+  override fun getUniversities(): Flow<List<University>> = flow {
+    val response = apiService.getUniversities()
+    val universities = response.data.map { it.toUniversity() }
+    emit(universities)
+  }
+
+
 }

@@ -39,6 +39,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universityLists
+import com.anugrah.majorsmatch.domain.model.Major
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.ui.common.UiState
 import com.anugrah.majorsmatch.ui.components.CircleBackButton
@@ -208,13 +209,13 @@ fun Faculties(university: University) {
     Text(text = stringResource(R.string.faculties_and_programs), fontWeight = FontWeight.Bold)
     Spacer(modifier = Modifier.height(DIMENS_4dp))
     university.faculty.forEach {
-      FacultyItem(faculty = it.name, programs = it.major)
+      FacultyItem(faculty = it.name, programs = it.majors)
     }
   }
 }
 
 @Composable
-private fun FacultyItem(faculty: String, programs: List<String>) {
+private fun FacultyItem(faculty: String, programs: List<Major>) {
   Card(
     modifier = Modifier
       .fillMaxWidth()

@@ -3,8 +3,10 @@ package com.anugrah.majorsmatch.data.repository
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.GetUniversitiesResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
+import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.domain.repository.ILocalDataSource
 import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
 import com.anugrah.majorsmatch.domain.repository.IRepository
@@ -32,5 +34,9 @@ class Repository @Inject constructor(
 
   override fun getUserSession(): Flow<DataLogin> {
     return localDataSource.getUserSession()
+  }
+
+  override fun getUniversities(): Flow<List<University>> {
+    return remoteDataSource.getUniversities()
   }
 }
