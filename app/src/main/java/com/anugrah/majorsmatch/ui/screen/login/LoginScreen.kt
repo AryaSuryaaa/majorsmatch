@@ -1,5 +1,6 @@
 package com.anugrah.majorsmatch.ui.screen.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,10 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.anugrah.majorsmatch.MainActivity
 import com.anugrah.majorsmatch.R
+import com.anugrah.majorsmatch.common.ResultState
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.PasswordField
 import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
+import com.anugrah.majorsmatch.utils.showToast
 
 @Composable
 fun LoginScreen(
@@ -45,6 +50,30 @@ fun LoginScreen(
   modifier: Modifier = Modifier
 ) {
   val uiState by viewModel.uiState.collectAsState()
+  val context = LocalContext.current
+
+  LaunchedEffect(uiState.loginResult) {
+    val mainActivity = context as MainActivity
+
+    when (uiState.loginResult) {
+      is ResultState.Loading -> {
+        mainActivity.loaderState.value = true
+      }
+      is ResultState.Success -> {
+        mainActivity.loaderState.value = false
+        context.showToast("Login Success")
+        navHostController.popBackStack()
+        navHostController.navigate(Screen.Home.route)
+      }
+      is ResultState.Error -> {
+        mainActivity.loaderState.value = false
+        val error = (uiState.loginResult as ResultState.Error).error
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+      }
+      else -> Unit
+    }
+  }
+
   Box(
     modifier = modifier.fillMaxSize()
   ) {
@@ -53,8 +82,7 @@ fun LoginScreen(
       onUsernameChange = { viewModel.setEmail(it) },
       onPasswordChange = { viewModel.setPassword(it) },
       onLogin = {
-        navHostController.popBackStack()
-        navHostController.navigate(Screen.Home.route)
+        viewModel.login()
       },
       onRegister = {
         navHostController.navigate(Screen.Register.route)

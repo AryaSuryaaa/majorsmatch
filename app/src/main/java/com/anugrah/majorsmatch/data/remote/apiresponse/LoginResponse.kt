@@ -2,13 +2,13 @@ package com.anugrah.majorsmatch.data.remote.apiresponse
 
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResponse(
+data class LoginResponse(
 
 	@field:SerializedName("code")
 	val code: Int,
 
-	@field:SerializedName("dataRegister")
-	val dataRegister: DataRegister,
+	@field:SerializedName("data")
+	val dataLogin: DataLogin,
 
 	@field:SerializedName("message")
 	val message: String,
@@ -17,7 +17,16 @@ data class RegisterResponse(
 	val status: Boolean
 )
 
-data class DataRegister(
+data class DataLogin(
+
+	@field:SerializedName("user")
+	val dataUser: DataUser,
+
+	@field:SerializedName("token")
+	val token: String
+)
+
+data class DataUser(
 
 	@field:SerializedName("id")
 	val id: Int,
