@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.navigation.screen.Screen
@@ -33,7 +34,8 @@ fun SplashScreen(
   navHostController: NavHostController,
   splashViewModel: SplashViewModel = hiltViewModel()
 ) {
-  val onBoardingIsCompleted by splashViewModel.onBoardingIsCompleted.collectAsState()
+  val state by splashViewModel.uiState.collectAsState()
+
   val scale= remember { Animatable(0f) }
 
   LaunchedEffect(key1 = true) {
@@ -49,7 +51,10 @@ fun SplashScreen(
     delay(1200L)
     navHostController.popBackStack()
 
-    if (onBoardingIsCompleted) navHostController.navigate(Screen.Login.route)
+    if (state.onBoarding) {
+      if (state.isLogin != null) navHostController.navigate(Screen.Home.route)
+      else navHostController.navigate(Screen.Login.route)
+    }
     else navHostController.navigate(Screen.OnBoarding.route)
   }
 

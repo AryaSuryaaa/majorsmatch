@@ -1,5 +1,7 @@
 package com.anugrah.majorsmatch.ui.components
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -11,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -26,11 +29,19 @@ fun BottomBarApp(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     NavigationBar(
         modifier = modifier
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
+        val bottomNavRoutes = listOf(Screen.Home.route, Screen.Explore.route, Screen.Profile.route)
+
+        BackHandler(enabled = currentRoute in bottomNavRoutes) {
+            // Jika di tab bottom navigation, misalnya keluar dari aplikasi
+            (context as? Activity)?.finish()
+        }
 
         val navigationItem = listOf(
             NavigationItem(

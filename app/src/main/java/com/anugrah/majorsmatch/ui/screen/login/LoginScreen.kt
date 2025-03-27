@@ -63,7 +63,9 @@ fun LoginScreen(
         mainActivity.loaderState.value = false
         context.showToast("Login Success")
         navHostController.popBackStack()
-        navHostController.navigate(Screen.Home.route)
+        navHostController.navigate(Screen.Home.route) {
+          popUpTo(Screen.Login.route) { inclusive = true }
+        }
       }
       is ResultState.Error -> {
         mainActivity.loaderState.value = false
