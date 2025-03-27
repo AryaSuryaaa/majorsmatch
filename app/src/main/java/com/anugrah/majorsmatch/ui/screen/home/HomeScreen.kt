@@ -44,6 +44,7 @@ import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universityLists
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataTestimony
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataUser
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
@@ -66,12 +67,14 @@ fun HomeScreen(
   LaunchedEffect(Unit) {
     viewModel.getUserSession()
     viewModel.getUniversities()
+    viewModel.getTestimony()
   }
 
   uiState.userSession?.let {
     HomeScreenContent(
       user = it,
       listUniversity = uiState.universities,
+      testimony = uiState.testimony,
       toDetailUniversity = { universityId ->
         navHostController.navigate(
           Screen.DetailUniversity.withArgs(
@@ -92,6 +95,7 @@ fun HomeScreenContent(
   listUniversity: List<University>,
   toDetailUniversity: (Int) -> Unit,
   toSurvey: () -> Unit = {},
+  testimony: List<DataTestimony>,
   modifier: Modifier = Modifier
 ) {
   Scaffold { padding ->
@@ -112,7 +116,9 @@ fun HomeScreenContent(
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       ButtonSurvey(toSurvey = toSurvey)
       Spacer(modifier = Modifier.height(DIMENS_16dp))
-      Testimonials()
+      Testimonials(
+        testimony = testimony
+      )
     }
   }
 }
@@ -227,7 +233,9 @@ fun ButtonSurvey(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Testimonials() {
+fun Testimonials(
+  testimony: List<DataTestimony>
+) {
   Column {
     Text(
       text = stringResource(R.string.what_they_say),
@@ -235,7 +243,7 @@ fun Testimonials() {
       fontWeight = FontWeight.Bold
     )
     Spacer(modifier = Modifier.height(DIMENS_8dp))
-    SliderBanner()
+    SliderBanner(testimony = testimony)
   }
 }
 
@@ -254,6 +262,7 @@ private fun HomScreenPrev() {
           ),
         token = ""
       ),
+      testimony = emptyList(),
       listUniversity = universityList,
       toDetailUniversity = {},
     )

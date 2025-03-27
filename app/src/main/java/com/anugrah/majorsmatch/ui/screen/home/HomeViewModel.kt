@@ -3,6 +3,7 @@ package com.anugrah.majorsmatch.ui.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anugrah.majorsmatch.common.ResultState
+import com.anugrah.majorsmatch.domain.usecase.homeusecase.GetTestimonyUseCase
 import com.anugrah.majorsmatch.domain.usecase.homeusecase.GetUniversitiesUseCase
 import com.anugrah.majorsmatch.domain.usecase.splashusecase.GetUserSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
   private val getUniversitiesUseCase: GetUniversitiesUseCase,
-  private val getUserSessionUseCase: GetUserSessionUseCase
+  private val getUserSessionUseCase: GetUserSessionUseCase,
+  private val getTestimonyUseCase: GetTestimonyUseCase
 ): ViewModel() {
   private val _uiState = MutableStateFlow(HomeUiState())
   val uiState get() = _uiState
@@ -52,6 +54,21 @@ class HomeViewModel @Inject constructor(
               state.copy(isLoading = false, userSession = result.data)
             }
 
+            else -> state
+          }
+        }
+      }
+    }
+  }
+
+  fun getTestimony() {
+    viewModelScope.launch {
+      getTestimonyUseCase(Unit).collect { result ->
+        _uiState.update { state ->
+          when (result) {
+            is ResultState.Success -> {
+              state.copy(isLoading = false, testimony = result.data.dataTestimony)
+            }
             else -> state
           }
         }
