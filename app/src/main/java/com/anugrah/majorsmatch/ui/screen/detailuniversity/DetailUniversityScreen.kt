@@ -232,8 +232,8 @@ private fun FacultyItem(faculty: String, programs: List<Major>) {
         .padding(DIMENS_12dp)
     ) {
       Text(faculty, fontWeight = FontWeight.Bold)
-      val programsText = programs.joinToString(", ")
-      Text(text = programsText, textAlign = TextAlign.Justify)
+      val programsText = programs.joinToString(", ") { it.majorName }
+      Text(text = programsText, textAlign = TextAlign.Start)
     }
   }
 }
