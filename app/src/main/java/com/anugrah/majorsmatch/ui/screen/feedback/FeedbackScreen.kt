@@ -1,16 +1,23 @@
 package com.anugrah.majorsmatch.ui.screen.feedback
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,10 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.MainActivity
@@ -83,6 +92,9 @@ fun FeedbackScreen(
     submitTestimony = {
       viewModel.submitTestimony()
     },
+    onClickBack = {
+      navHostController.popBackStack()
+    },
     modifier = Modifier.fillMaxSize()
   )
 }
@@ -93,11 +105,33 @@ fun FeedbackContent(
   text: String = "",
   updateInputTestimony: (String) -> Unit,
   submitTestimony: () -> Unit = {},
+  onClickBack: () -> Unit = {},
   modifier: Modifier
 ) {
   Column(
     modifier = modifier
   ) {
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.surface)
+        .padding(vertical = 8.dp),
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      IconButton(onClick = onClickBack) {
+        Icon(
+          imageVector = Icons.AutoMirrored.Default.ArrowBack,
+          contentDescription = stringResource(R.string.back),
+          tint = MaterialTheme.colorScheme.onSurface
+        )
+      }
+      Text(
+        text = stringResource(R.string.feed_back).uppercase(),
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.padding(start = 8.dp)
+      )
+    }
     ListFeedback(
       testimony = testimony,
       modifier = Modifier.weight(1f)

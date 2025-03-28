@@ -172,9 +172,6 @@ fun AccountContent(
       title = stringResource(R.string.dark_mode),
       onClick = { showThemeDialog = true }
     )
-
-    ToggleItem(title = stringResource(R.string.push_notifications), checked = false, onCheckedChange = {})
-
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
     // "Feed back"
