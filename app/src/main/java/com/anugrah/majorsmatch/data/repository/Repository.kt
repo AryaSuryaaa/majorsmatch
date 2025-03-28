@@ -50,4 +50,20 @@ class Repository @Inject constructor(
   override fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse> {
     return remoteDataSource.submitFeedback(param)
   }
+
+  override suspend fun saveTheme(theme: String) {
+    return localDataSource.saveTheme(theme)
+  }
+
+  override fun getTheme(): Flow<String> {
+    return localDataSource.getTheme()
+  }
+
+  override suspend fun saveLanguage(language: String) {
+    return localDataSource.saveLanguage(language)
+  }
+
+  override fun getLanguage(): Flow<String> {
+    return localDataSource.getLanguage()
+  }
 }

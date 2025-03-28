@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Majorsmatch</string>
-    <string name="logo_app">Logo App</string>
+    <string name="app_name" translatable="false">Majorsmatch</string>
+    <string name="logo_app" translatable="false">Logo App</string>
     <string name="student_image">Student Image</string>
     <string name="get_started">Get Started</string>
-    <string name="image_slider">image slider</string>
+    <string name="image_slider" translatable="false">image slider</string>
     <string name="top_university">Top University</string>
     <string name="talent_survey">Talent Survey</string>
     <string name="what_they_say">What they say</string>
@@ -18,7 +18,7 @@
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
     <string name="welcome_to_majorsmatch">Welcome to Majorsmatch</string>
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="register_here">Register here</string>
     <string name="login">Login</string>
@@ -31,15 +31,15 @@
     <string name="dark_mode">Dark mode</string>
     <string name="more">More</string>
     <string name="about_app">About App</string>
-    <string name="privacy_policy">Privacy policy</string>
-    <string name="terms_and_conditions">Terms and conditions</string>
-    <string name="username">Username</string>
+    <string name="privacy_policy" translatable="false">Privacy policy</string>
+    <string name="terms_and_conditions" translatable="false">Terms and conditions</string>
+    <string name="username" translatable="false">Username</string>
     <string name="register">Register</string>
-    <string name="confirm_password">Confirm password</string>
-    <string name="password">Password</string>
+    <string name="confirm_password" translatable="false">Confirm password</string>
+    <string name="password" translatable="false">Password</string>
     <string name="have_any_account">Have any account?</string>
     <string name="login_here">login here</string>
-    <string name="full_name">Full Name</string>
+    <string name="full_name" translatable="false">Full Name</string>
     <string name="language">Language</string>
     <string name="feed_back">Feed back</string>
     <string name="give_feedback">Give feedback</string>

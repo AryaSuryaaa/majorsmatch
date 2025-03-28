@@ -11,6 +11,7 @@ import com.anugrah.majorsmatch.data.remote.apiresponse.SubmitFeedbackResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
   @POST("auth/register")
@@ -33,4 +34,9 @@ interface ApiService {
   suspend fun submitFeedback(
     @Body request: SubmitFeedbackRequest
   ): SubmitFeedbackResponse
+
+  @GET("universities/search")
+  suspend fun searchUniversities(
+    @Query("q") query: String
+  ): GetUniversitiesResponse
 }

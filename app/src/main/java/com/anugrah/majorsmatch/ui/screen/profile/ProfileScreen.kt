@@ -12,17 +12,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +51,11 @@ fun ProfileScreen(
 ) {
   val uiState by viewModel.uiState.collectAsState()
 
+  LaunchedEffect(Unit) {
+    viewModel.getTheme()
+    viewModel.getLanguage()
+  }
+
   Column(
     modifier = Modifier.fillMaxSize()
   ) {
@@ -62,7 +71,15 @@ fun ProfileScreen(
         },
         toFeedback = {
           navHostController.navigate(Screen.Feedback.route)
-        }
+        },
+        setTheme = { theme ->
+          viewModel.saveTheme(theme)
+        },
+        setLanguage = { language ->
+          viewModel.saveLanguage(language)
+        },
+        theme = uiState.theme,
+        language = uiState.language
       )
     }
   }
@@ -72,9 +89,16 @@ fun ProfileScreen(
 fun AccountContent(
   onLogout: () -> Unit,
   dataUser: DataUser,
-  toFeedback: () -> Unit
+  toFeedback: () -> Unit,
+  setTheme: (String) -> Unit,
+  setLanguage: (String) -> Unit,
+  theme: String,
+  language: String
 ) {
-
+  var showThemeDialog by remember { mutableStateOf(false) }
+  var currentTheme by remember { mutableStateOf("Auto") }
+  var showLanguageDialog by remember { mutableStateOf(false) }
+  var currentLanguage by remember { mutableStateOf("English") }
   val (showLogOutDialog, setShowLogOutDialog) = remember { mutableStateOf(false) }
   val context = LocalContext.current
 
@@ -88,6 +112,28 @@ fun AccountContent(
       onLogout()
     },
     onDismissButton = { /* Optional */ }
+  )
+
+  ThemeDialog(
+    showDialog = showThemeDialog,
+    currentTheme = theme,
+    onDismiss = { showThemeDialog = false },
+    onConfirm = { selectedTheme ->
+      currentTheme = selectedTheme
+      setTheme(selectedTheme)
+      showThemeDialog = false
+    }
+  )
+
+  LanguageDialog(
+    showDialog = showLanguageDialog,
+    currentLanguage = language,
+    onDismiss = { showLanguageDialog = false },
+    onConfirm = { selectedLanguage ->
+      currentLanguage = selectedLanguage
+      setLanguage(selectedLanguage)
+      showLanguageDialog = false
+    }
   )
 
   Column(
@@ -119,11 +165,15 @@ fun AccountContent(
 
     AccountItem(
       title = stringResource(R.string.language),
-      onClick = { context.showToast(context.getString(R.string.this_feature_is_not_available_now)) }
+      onClick = { showLanguageDialog = true }
+    )
+
+    AccountItem(
+      title = stringResource(R.string.dark_mode),
+      onClick = { showThemeDialog = true }
     )
 
     ToggleItem(title = stringResource(R.string.push_notifications), checked = false, onCheckedChange = {})
-    ToggleItem(title = stringResource(R.string.dark_mode), checked = false, onCheckedChange = {})
 
     HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -193,6 +243,100 @@ fun ToggleItem(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Un
 }
 
 @Composable
+fun ThemeDialog(
+  showDialog: Boolean,
+  currentTheme: String,
+  onDismiss: () -> Unit,
+  onConfirm: (selectedTheme: String) -> Unit
+) {
+  if (showDialog) {
+    var selectedTheme by remember { mutableStateOf(currentTheme) }
+    AlertDialog(
+      onDismissRequest = onDismiss,
+      title = { Text(text = "Pilih Tema") },
+      text = {
+        Column {
+          val themes = listOf("Light", "Dark", "Auto")
+          themes.forEach { theme ->
+            Row(
+              verticalAlignment = Alignment.CenterVertically,
+              modifier = Modifier
+                .fillMaxWidth()
+                .clickable { selectedTheme = theme }
+                .padding(vertical = 4.dp)
+            ) {
+              RadioButton(
+                selected = (theme == selectedTheme),
+                onClick = { selectedTheme = theme }
+              )
+              Text(text = theme)
+            }
+          }
+        }
+      },
+      confirmButton = {
+        Button(onClick = { onConfirm(selectedTheme) }) {
+          Text(text = "Confirm")
+        }
+      },
+      dismissButton = {
+        Button(onClick = onDismiss) {
+          Text(text = "Cancel")
+        }
+      }
+    )
+  }
+}
+
+@Composable
+fun LanguageDialog(
+  showDialog: Boolean,
+  currentLanguage: String,
+  onDismiss: () -> Unit,
+  onConfirm: (selectedLanguage: String) -> Unit
+) {
+  if (showDialog) {
+    var selectedLanguage by remember { mutableStateOf(currentLanguage) }
+    val languageOptions = listOf("en" to "English", "in" to "Bahasa Indonesia")
+    AlertDialog(
+      onDismissRequest = onDismiss,
+      title = { Text(text = "Pilih Bahasa") },
+      text = {
+        Column {
+          languageOptions.forEach { (code, name) ->
+            Row(
+              verticalAlignment = Alignment.CenterVertically,
+              modifier = Modifier
+                .fillMaxWidth()
+                .clickable { selectedLanguage = code }
+                .padding(vertical = 4.dp)
+            ) {
+              RadioButton(
+                selected = (selectedLanguage == code),
+                onClick = { selectedLanguage = code }
+              )
+              Text(text = name)
+            }
+          }
+        }
+      },
+      confirmButton = {
+        Button(onClick = { onConfirm(selectedLanguage) }) {
+          Text(text = "Confirm")
+        }
+      },
+      dismissButton = {
+        Button(onClick = onDismiss) {
+          Text(text = "Cancel")
+        }
+      }
+    )
+  }
+}
+
+
+
+@Composable
 fun LogoutButton(onClick: () -> Unit) {
   Button(
     onClick = onClick,
@@ -207,6 +351,32 @@ fun LogoutButton(onClick: () -> Unit) {
 @Composable
 private fun ProfileScreenPreview() {
   MajorsmatchTheme {
-    AccountContent({}, dataUser = DataUser(1, "anugrah", "anugrah@gmail.com", "angrh")) {}
+    AccountContent(
+      onLogout = {},
+      dataUser = DataUser(1, "anugrah", "anugrah@gmail.com", "angrh"),
+      toFeedback = {},
+      setTheme = {},
+      setLanguage = {},
+      theme = "",
+      language = ""
+    )
+  }
+}
+
+@Preview
+@Composable
+private fun ThemePreview() {
+  ThemeDialog(
+    showDialog = true,
+    currentTheme = "Dark",
+    onDismiss = {}
+  ) { }
+}
+
+fun getLanguageDisplayName(code: String): String {
+  return when (code) {
+    "en" -> "English"
+    "in" -> "Bahasa Indonesia"
+    else -> "Unknown"
   }
 }

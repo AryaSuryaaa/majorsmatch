@@ -2,6 +2,7 @@ package com.anugrah.majorsmatch.di
 
 import android.content.Context
 import com.anugrah.majorsmatch.data.local.datastore.DataStoreManager
+import com.anugrah.majorsmatch.data.local.datastore.DataStoreSettings
 import com.anugrah.majorsmatch.data.repository.OnBoardingOperationImpl
 import com.anugrah.majorsmatch.data.repository.Repository
 import com.anugrah.majorsmatch.domain.UseCases
@@ -33,6 +34,12 @@ class RepositoryModule {
   fun provideDataStoreManager(
     @ApplicationContext context: Context
   ): DataStoreManager = DataStoreManager(context = context)
+
+  @Provides
+  @Singleton
+  fun provideDataStoreSettings(
+    @ApplicationContext context: Context
+  ): DataStoreSettings = DataStoreSettings(context = context)
 
 
   @Provides

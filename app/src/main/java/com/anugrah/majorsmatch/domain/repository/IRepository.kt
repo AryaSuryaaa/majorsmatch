@@ -23,4 +23,8 @@ interface IRepository {
   fun getUniversities(): Flow<List<University>>
   fun getTestimony(): Flow<GetTestimonyResponse>
   fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse>
+  suspend fun saveTheme(theme: String)
+  fun getTheme(): Flow<String>
+  suspend fun saveLanguage(language: String)
+  fun getLanguage(): Flow<String>
 }

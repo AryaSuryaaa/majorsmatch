@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="student_image">Gambar murid</string>
+    <string name="get_started">Mulai</string>
+    <string name="top_university">Universitas Unggulan</string>
+    <string name="talent_survey">Survei</string>
+    <string name="what_they_say">Apa kata mereka</string>
+    <string name="description">Deskripsi</string>
+    <string name="faculties_and_programs">Fakultas dan Jurusan</string>
+    <string name="visit_website">Kunjungi website</string>
+    <string name="search_petak">Cari universitas</string>
+    <string name="home">Beranda</string>
+    <string name="explore">Jelajahi</string>
+    <string name="profile">Profil</string>
+    <string name="back">Kembali</string>
+    <string name="hide_password">Sembunyikan kata sandi</string>
+    <string name="show_password">Munculkan kata sandi</string>
+    <string name="welcome_to_majorsmatch">Selamat datang di Majorsmatch</string>
+    <string name="don_t_have_an_account">Tidak punya akun?</string>
+    <string name="register_here">Daftar disini</string>
+    <string name="login">Masuk</string>
+    <string name="get_your_match_majority_with_our_app">Cocokan minat bakatmu bersama kami</string>
+    <string name="are_you_sure_you_want_to_log_out">Apakah kamu yakin ingin keluar?</string>
+    <string name="log_out">Keluar</string>
+    <string name="account_settings">Pengaturan akun</string>
+    <string name="this_feature_is_not_available_now">Fitur ini belum tersedia</string>
+    <string name="push_notifications">Notifikasi</string>
+    <string name="dark_mode">Mode gelap</string>
+    <string name="more">Lainnya</string>
+    <string name="about_app">Tentang aplikasi</string>
+    <string name="register">Daftar</string>
+    <string name="have_any_account">Sudah punya akun?</string>
+    <string name="login_here">Masuk disini</string>
+    <string name="language">Bahasa</string>
+    <string name="feed_back">Umpan balik</string>
+    <string name="give_feedback">Berikan umpan balik</string>
+    <string name="submit">Kirim</string>
+    <string name="submit_success">Kirim data berhasil</string>
+</resources>
