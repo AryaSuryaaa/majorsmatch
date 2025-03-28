@@ -60,7 +60,9 @@ fun ProfileScreen(
             }
           }
         },
-        toFeedback = {}
+        toFeedback = {
+          navHostController.navigate(Screen.Feedback.route)
+        }
       )
     }
   }

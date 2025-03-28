@@ -2,11 +2,13 @@ package com.anugrah.majorsmatch.data.repository
 
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
+import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetUniversitiesResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
+import com.anugrah.majorsmatch.data.remote.apiresponse.SubmitFeedbackResponse
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.domain.repository.ILocalDataSource
 import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
@@ -43,5 +45,9 @@ class Repository @Inject constructor(
 
   override fun getTestimony(): Flow<GetTestimonyResponse> {
     return remoteDataSource.getTestimony()
+  }
+
+  override fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse> {
+    return remoteDataSource.submitFeedback(param)
   }
 }

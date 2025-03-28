@@ -4,9 +4,11 @@ import com.anugrah.majorsmatch.data.local.datastore.DataStoreManager
 import com.anugrah.majorsmatch.data.remote.api.ApiService
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
+import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
+import com.anugrah.majorsmatch.data.remote.apiresponse.SubmitFeedbackResponse
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.domain.model.toUniversity
 import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
@@ -20,15 +22,10 @@ class RemoteDataSourceImpl @Inject constructor(
 ): IRemoteDataSource{
   override fun register(param: RegisterRequest): Flow<RegisterResponse> = flow {
     val response = apiService.registerUser(param)
-
-    if (!response.status) {
-      throw Exception("Register Failed, Try Again!")
-    }
-
     emit(response)
   }
 
-  override fun login(param: LoginRequest): Flow<LoginResponse> = flow<LoginResponse> {
+  override fun login(param: LoginRequest): Flow<LoginResponse> = flow {
     val response = apiService.loginUser(param)
     dataStore.saveUserSession(response.dataLogin)
     emit(response)
@@ -42,6 +39,11 @@ class RemoteDataSourceImpl @Inject constructor(
 
   override fun getTestimony(): Flow<GetTestimonyResponse> = flow {
     val response = apiService.getTestimony()
+    emit(response)
+  }
+
+  override fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse> = flow {
+    val response = apiService.submitFeedback(param)
     emit(response)
   }
 

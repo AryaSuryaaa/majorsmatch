@@ -14,4 +14,5 @@ sealed class Screen(val route: String) {
     }
   }
   data object Survey : Screen("survey_screen")
+  data object Feedback : Screen("feedback_screen")
 }

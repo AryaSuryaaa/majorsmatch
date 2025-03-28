@@ -50,6 +50,7 @@ import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.CardUniversity
 import com.anugrah.majorsmatch.ui.components.SliderBanner
+import com.anugrah.majorsmatch.ui.theme.DIMENS_114dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_8dp
@@ -243,7 +244,12 @@ fun Testimonials(
       fontWeight = FontWeight.Bold
     )
     Spacer(modifier = Modifier.height(DIMENS_8dp))
-    SliderBanner(testimony = testimony)
+    SliderBanner(
+      testimony = testimony,
+      modifier = Modifier
+        .height(DIMENS_114dp)
+        .fillMaxWidth(),
+    )
   }
 }
 

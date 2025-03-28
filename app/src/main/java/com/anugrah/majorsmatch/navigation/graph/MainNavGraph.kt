@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.screen.detailuniversity.DetailUniversityScreen
 import com.anugrah.majorsmatch.ui.screen.explore.ExploreScreen
+import com.anugrah.majorsmatch.ui.screen.feedback.FeedbackScreen
 import com.anugrah.majorsmatch.ui.screen.home.HomeScreen
 import com.anugrah.majorsmatch.ui.screen.login.LoginScreen
 import com.anugrah.majorsmatch.ui.screen.onboarding.OnBoardingScreen
@@ -59,6 +60,9 @@ fun MainNavGraph(navController: NavHostController, startDestination: String = Sc
     }
     composable(route = Screen.Survey.route) {
       SurveyScreen(navHostController = navController)
+    }
+    composable(route = Screen.Feedback.route) {
+      FeedbackScreen(navHostController = navController)
     }
   }
 }
