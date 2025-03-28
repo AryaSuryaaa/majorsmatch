@@ -7,6 +7,7 @@ import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.Data
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
+import com.anugrah.majorsmatch.data.remote.apiresponse.GetQuestionResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
@@ -52,6 +53,11 @@ class RemoteDataSourceImpl @Inject constructor(
   override fun searchUniversity(query: String): Flow<List<DataUniversity>> = flow {
     val response = apiService.searchUniversities(query)
     emit(response.data)
+  }
+
+  override fun getQuestion(): Flow<GetQuestionResponse> = flow {
+    val response = apiService.getQuestions()
+    emit(response)
   }
 
 

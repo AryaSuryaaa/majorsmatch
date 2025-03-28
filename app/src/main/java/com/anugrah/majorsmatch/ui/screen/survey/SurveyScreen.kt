@@ -18,26 +18,48 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
-import com.anugrah.majorsmatch.data.dummy.questionList
+import com.anugrah.majorsmatch.data.remote.apiresponse.QuestionItem
 import com.anugrah.majorsmatch.ui.components.QuestionCard
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun SurveyScreen(
-  navHostController: NavHostController
+  navHostController: NavHostController,
+  viewModel: SurveyViewModel = hiltViewModel()
 ) {
-  var answers by remember { mutableStateOf(mutableMapOf<String, Boolean?>()) }
+  val uiState by viewModel.uiState.collectAsState()
 
+  LaunchedEffect(Unit) {
+    viewModel.getQuestion()
+  }
+
+  SurveyContent(
+    onClickBack = { navHostController.popBackStack() },
+    questionList = uiState.questions,
+    answers = uiState.answers,
+    onAnswerSelected = { id, answer ->
+      viewModel.updateAnswer(id, answer)
+    }
+  )
+}
+
+@Composable
+fun SurveyContent(
+  onClickBack: () -> Unit = {},
+  questionList: List<QuestionItem> = emptyList(),
+  answers: Map<Int, Boolean?>,
+  onAnswerSelected: (Int, Boolean) -> Unit
+) {
   Column(
     modifier = Modifier
   ) {
@@ -48,7 +70,7 @@ fun SurveyScreen(
         .padding(vertical = 8.dp),
       verticalAlignment = Alignment.CenterVertically
     ) {
-      IconButton(onClick = { navHostController.popBackStack() }) {
+      IconButton(onClick = onClickBack) {
         Icon(
           imageVector = Icons.AutoMirrored.Default.ArrowBack,
           contentDescription = stringResource(R.string.back),
@@ -69,10 +91,10 @@ fun SurveyScreen(
     ) {
       items(questionList) { question ->
         QuestionCard(
-          text = question.text,
-          selected = answers[question.text],
+          text = question.question,
+          selected = answers[question.sortNumber],
           onSelectionChange = { newAnswer ->
-            answers = answers.toMutableMap().apply { put(question.text, newAnswer) }
+            onAnswerSelected(question.sortNumber, newAnswer)
           },
         )
       }
