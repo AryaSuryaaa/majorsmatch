@@ -4,6 +4,7 @@ import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetUniversitiesResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
@@ -27,4 +28,5 @@ interface IRepository {
   fun getTheme(): Flow<String>
   suspend fun saveLanguage(language: String)
   fun getLanguage(): Flow<String>
+  fun searchUniversity(query: String): Flow<List<DataUniversity>>
 }

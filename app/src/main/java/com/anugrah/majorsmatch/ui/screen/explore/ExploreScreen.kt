@@ -1,5 +1,7 @@
 package com.anugrah.majorsmatch.ui.screen.explore
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -21,11 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.anugrah.majorsmatch.data.dummy.universityLists
-import com.anugrah.majorsmatch.domain.model.University
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.navigation.screen.Screen
-import com.anugrah.majorsmatch.ui.common.UiState
 import com.anugrah.majorsmatch.ui.components.ExploreCard
+import com.anugrah.majorsmatch.ui.components.LoadingScreen
 import com.anugrah.majorsmatch.ui.components.SearchBarComponent
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_8dp
@@ -35,35 +37,30 @@ fun ExploreScreen(
   navHostController: NavHostController,
   viewModel: ExploreViewModel = hiltViewModel()
 ) {
-  val universityList = universityLists
   val uiState by viewModel.uiState.collectAsState()
 
-  when (uiState) {
-    is UiState.Loading -> {
-      Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
-      }
-    }
-    is UiState.Success -> {
-      val data = (uiState as UiState.Success<ExploreUiState>).data
-      ExploreContent(
-        query = data.query,
-        onQueryChange = { viewModel.updateQuery(it) },
-        toDetailUniversity = { universityId ->
-          navHostController.navigate(
-            Screen.DetailUniversity.withArgs(
-              universityId
-            )
-          )
-        },
-        listUniversity = universityList
-      )
-    }
-    is UiState.Error -> {
-      val errorMessage = (uiState as UiState.Error).errorMessage
-      Text("Error: $errorMessage", color = Color.Red, modifier = Modifier.fillMaxSize())
-    }
+  LaunchedEffect(Unit) {
+    viewModel.searchUniversity()
   }
+
+  LaunchedEffect(uiState.query) {
+    viewModel.searchUniversity()
+  }
+
+  ExploreContent(
+    query = uiState.query,
+    onQueryChange = { viewModel.updateQuery(it) },
+    toDetailUniversity = { universityId ->
+      navHostController.navigate(
+        Screen.DetailUniversity.withArgs(
+          universityId
+        )
+      )
+    },
+    listUniversity = uiState.universities,
+    isLoading = uiState.isLoading,
+    errorMessage = uiState.errorMessage
+  )
 }
 
 @Composable
@@ -71,7 +68,9 @@ fun ExploreContent(
   query: String,
   toDetailUniversity: (Int) -> Unit,
   onQueryChange: (String) -> Unit,
-  listUniversity: List<University>,
+  listUniversity: List<DataUniversity>,
+  isLoading: Boolean,
+  errorMessage: String?
   ) {
   Column(
     modifier = Modifier
@@ -85,30 +84,47 @@ fun ExploreContent(
 
     Spacer(modifier = Modifier.height(DIMENS_16dp))
 
-    LazyVerticalGrid(
-      columns = GridCells.Adaptive(113.dp),
-      horizontalArrangement = Arrangement.spacedBy(DIMENS_8dp),
-      verticalArrangement = Arrangement.spacedBy(DIMENS_8dp),
-    ) {
-      items(listUniversity.size) {
-        ExploreCard(
-          onClick = { toDetailUniversity(listUniversity[it].id) },
-          imgLogo = listUniversity[it].imgLogo,
-          universityName = listUniversity[it].name
-        )
+    if (!isLoading && errorMessage == null) {
+      LazyVerticalGrid(
+        columns = GridCells.Adaptive(113.dp),
+        horizontalArrangement = Arrangement.spacedBy(DIMENS_8dp),
+        verticalArrangement = Arrangement.spacedBy(DIMENS_8dp),
+      ) {
+        items(listUniversity.size) {
+          ExploreCard(
+            onClick = { toDetailUniversity(listUniversity[it].id) },
+            imgLogo = listUniversity[it].imgLogoUrl,
+            universityAcronym = listUniversity[it].acronym
+          )
+        }
+      }
+    } else if (errorMessage != null) {
+      Text(errorMessage, modifier = Modifier.fillMaxSize().align(Alignment.CenterHorizontally))
+    } else {
+      Box(
+        modifier = Modifier
+          .fillMaxSize()
+          .clickable(
+            enabled = false,
+            onClick = {}
+          ),
+        contentAlignment = Alignment.Center
+      ) {
+        CircularProgressIndicator()
       }
     }
   }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ExploreScreenPrev() {
-  val universityList = universityLists
   ExploreContent(
     query = "Dummy Query",
     onQueryChange = {},
     toDetailUniversity = {},
-    listUniversity = universityList
+    listUniversity = emptyList(),
+    isLoading = false,
+    errorMessage = null
   )
 }

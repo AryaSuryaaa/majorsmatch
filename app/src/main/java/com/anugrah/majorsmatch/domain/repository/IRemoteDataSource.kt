@@ -3,6 +3,7 @@ package com.anugrah.majorsmatch.domain.repository
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
@@ -16,4 +17,5 @@ interface IRemoteDataSource {
   fun getUniversities(): Flow<List<University>>
   fun getTestimony(): Flow<GetTestimonyResponse>
   fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse>
+  fun searchUniversity(query: String): Flow<List<DataUniversity>>
 }

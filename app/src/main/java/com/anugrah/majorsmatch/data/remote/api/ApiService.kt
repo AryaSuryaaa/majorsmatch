@@ -35,7 +35,7 @@ interface ApiService {
     @Body request: SubmitFeedbackRequest
   ): SubmitFeedbackResponse
 
-  @GET("universities/search")
+  @GET("survey/universities/search")
   suspend fun searchUniversities(
     @Query("q") query: String
   ): GetUniversitiesResponse

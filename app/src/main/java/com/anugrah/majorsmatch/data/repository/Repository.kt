@@ -4,6 +4,7 @@ import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataLogin
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetUniversitiesResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
@@ -65,5 +66,9 @@ class Repository @Inject constructor(
 
   override fun getLanguage(): Flow<String> {
     return localDataSource.getLanguage()
+  }
+
+  override fun searchUniversity(query: String): Flow<List<DataUniversity>> {
+    return remoteDataSource.searchUniversity(query)
   }
 }

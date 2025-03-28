@@ -5,6 +5,8 @@ import com.anugrah.majorsmatch.data.remote.api.ApiService
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
+import com.anugrah.majorsmatch.data.remote.apiresponse.Data
+import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
@@ -45,6 +47,11 @@ class RemoteDataSourceImpl @Inject constructor(
   override fun submitFeedback(param: SubmitFeedbackRequest): Flow<SubmitFeedbackResponse> = flow {
     val response = apiService.submitFeedback(param)
     emit(response)
+  }
+
+  override fun searchUniversity(query: String): Flow<List<DataUniversity>> = flow {
+    val response = apiService.searchUniversities(query)
+    emit(response.data)
   }
 
 

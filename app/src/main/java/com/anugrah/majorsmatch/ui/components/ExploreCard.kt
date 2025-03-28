@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +28,7 @@ import com.anugrah.majorsmatch.ui.theme.GrayBorderStroke
 fun ExploreCard(
   onClick: () -> Unit = {},
   imgLogo: String,
-  universityName: String
+  universityAcronym: String
 ) {
   Card(
     onClick =  onClick,
@@ -49,11 +50,12 @@ fun ExploreCard(
         modifier = Modifier.weight(1f).fillMaxWidth()
       )
       Text(
-        universityName,
-        modifier = Modifier.padding(top = DIMENS_8dp),
+        universityAcronym,
+        modifier = Modifier.padding(top = DIMENS_8dp).fillMaxWidth(),
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold
       )
     }
   }
@@ -64,6 +66,6 @@ fun ExploreCard(
 private fun ExploreCardPreview() {
   ExploreCard(
     imgLogo = "https://www.academicindonesia.com/wp-content/uploads/2016/09/Logo-UI.png",
-    universityName = "Universitas Indonesia"
+    universityAcronym = "Universitas Indonesia"
   )
 }
