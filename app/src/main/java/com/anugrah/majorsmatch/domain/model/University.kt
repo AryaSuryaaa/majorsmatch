@@ -1,7 +1,10 @@
 package com.anugrah.majorsmatch.domain.model
 
+import android.os.Parcelable
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class University(
   val id: Int,
   val name: String,
@@ -11,7 +14,7 @@ data class University(
   val acronym: String,
   val faculty: List<Faculty>,
   val website: String
-)
+) : Parcelable
 
 fun DataUniversity.toUniversity(): University {
   val faculties = this.majors.groupBy { it.facultyName to it.facultyCode }

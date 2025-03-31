@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,13 +17,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -34,14 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.dummy.universityLists
 import com.anugrah.majorsmatch.domain.model.Major
 import com.anugrah.majorsmatch.domain.model.University
-import com.anugrah.majorsmatch.ui.common.UiState
 import com.anugrah.majorsmatch.ui.components.CircleBackButton
 import com.anugrah.majorsmatch.ui.theme.DIMENS_12dp
 import com.anugrah.majorsmatch.ui.theme.DIMENS_16dp
@@ -52,40 +45,26 @@ import com.anugrah.majorsmatch.ui.theme.MajorsmatchTheme
 
 @Composable
 fun DetailUniversityScreen(
-  universityId: Int,
-  navHostController: NavHostController,
-  viewModel: DetailUniversityViewModel = hiltViewModel()
+  navHostController: NavHostController
 ) {
-  val uiState by viewModel.uiState.collectAsState()
   val context = LocalContext.current
+  val university = navHostController.previousBackStackEntry
+    ?.savedStateHandle
+    ?.get<University>("university")
 
-  LaunchedEffect(universityId) {
-    viewModel.getUniversityById(universityId)
+  if (university == null) {
+    Text("University not found")
+    return
   }
 
-  when(uiState) {
-    is UiState.Loading -> {
-      Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
-      }
-    }
-    is UiState.Success -> {
-      val data = (uiState as UiState.Success<DetailUniversityUiState>).data
-      DetailsUniversityContent(
-        onBackClick =  { navHostController.popBackStack() },
-        toWebsiteClick = {
-          val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.university!!.website))
-          context.startActivity(intent)
-        },
-        university = data.university!!
-      )
-    }
-
-    is UiState.Error -> {
-      val errorMessage = (uiState as UiState.Error).errorMessage
-      Text("Error: $errorMessage", modifier = Modifier.fillMaxSize())
-    }
-  }
+  DetailsUniversityContent(
+    onBackClick =  { navHostController.popBackStack() },
+    toWebsiteClick = {
+      val intent = Intent(Intent.ACTION_VIEW, Uri.parse(university.website))
+      context.startActivity(intent)
+    },
+    university = university
+  )
 }
 
 

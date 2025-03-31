@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
+import com.anugrah.majorsmatch.domain.model.University
+import com.anugrah.majorsmatch.domain.model.toUniversity
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.ExploreCard
 import com.anugrah.majorsmatch.ui.components.LoadingScreen
@@ -50,12 +52,14 @@ fun ExploreScreen(
   ExploreContent(
     query = uiState.query,
     onQueryChange = { viewModel.updateQuery(it) },
-    toDetailUniversity = { universityId ->
-      navHostController.navigate(
-        Screen.DetailUniversity.withArgs(
-          universityId
-        )
-      )
+    toDetailUniversity = { university ->
+//      navHostController.navigate(
+//        Screen.DetailUniversity.withArgs(
+//          university
+//        )
+//      )
+      navHostController.currentBackStackEntry?.savedStateHandle?.set("university", university)
+      navHostController.navigate(Screen.DetailUniversity.route)
     },
     listUniversity = uiState.universities,
     isLoading = uiState.isLoading,
@@ -66,7 +70,7 @@ fun ExploreScreen(
 @Composable
 fun ExploreContent(
   query: String,
-  toDetailUniversity: (Int) -> Unit,
+  toDetailUniversity: (University) -> Unit,
   onQueryChange: (String) -> Unit,
   listUniversity: List<DataUniversity>,
   isLoading: Boolean,
@@ -92,7 +96,7 @@ fun ExploreContent(
       ) {
         items(listUniversity.size) {
           ExploreCard(
-            onClick = { toDetailUniversity(listUniversity[it].id) },
+            onClick = { toDetailUniversity(listUniversity[it].toUniversity()) },
             imgLogo = listUniversity[it].imgLogoUrl,
             universityAcronym = listUniversity[it].acronym
           )

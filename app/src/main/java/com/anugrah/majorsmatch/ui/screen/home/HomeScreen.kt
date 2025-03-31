@@ -76,12 +76,14 @@ fun HomeScreen(
       user = it,
       listUniversity = uiState.universities,
       testimony = uiState.testimony,
-      toDetailUniversity = { universityId ->
-        navHostController.navigate(
-          Screen.DetailUniversity.withArgs(
-            universityId
-          )
-        )
+      toDetailUniversity = { university ->
+//        navHostController.navigate(
+//          Screen.DetailUniversity.withArgs(
+//            university
+//          )
+//        )
+        navHostController.currentBackStackEntry?.savedStateHandle?.set("university", university)
+        navHostController.navigate(Screen.DetailUniversity.route)
       },
       toSurvey = {
         navHostController.navigate(Screen.Survey.route)
@@ -94,7 +96,7 @@ fun HomeScreen(
 fun HomeScreenContent(
   user: DataLogin,
   listUniversity: List<University>,
-  toDetailUniversity: (Int) -> Unit,
+  toDetailUniversity: (University) -> Unit,
   toSurvey: () -> Unit = {},
   testimony: List<DataTestimony>,
   modifier: Modifier = Modifier
@@ -110,8 +112,8 @@ fun HomeScreenContent(
       Spacer(modifier = Modifier.height(DIMENS_16dp))
       TopUniversity(
         listUniversity,
-        toDetailUniversity = { universityId ->
-          toDetailUniversity(universityId)
+        toDetailUniversity = { university ->
+          toDetailUniversity(university)
         }
       )
       Spacer(modifier = Modifier.height(DIMENS_16dp))
@@ -146,7 +148,7 @@ fun HeaderHome(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun TopUniversity(
   university: List<University>,
-  toDetailUniversity: (Int) -> Unit = {},
+  toDetailUniversity: (University) -> Unit = {},
   modifier: Modifier = Modifier
 ) {
   Column(modifier = modifier
@@ -169,7 +171,7 @@ fun TopUniversity(
           imgBanner = it.imgBanner,
           acronym = it.acronym,
           onClick = {
-            toDetailUniversity(it.id)
+            toDetailUniversity(it)
           }
         )
       }

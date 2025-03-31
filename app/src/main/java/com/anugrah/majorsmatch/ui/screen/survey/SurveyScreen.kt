@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.anugrah.majorsmatch.R
 import com.anugrah.majorsmatch.data.remote.apiresponse.QuestionItem
+import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.components.QuestionCard
 
 @SuppressLint("MutableCollectionMutableState")
@@ -49,6 +50,9 @@ fun SurveyScreen(
     answers = uiState.answers,
     onAnswerSelected = { id, answer ->
       viewModel.updateAnswer(id, answer)
+    },
+    onSubmitClicked = {
+      navHostController.navigate(Screen.Result.route)
     }
   )
 }
@@ -58,7 +62,8 @@ fun SurveyContent(
   onClickBack: () -> Unit = {},
   questionList: List<QuestionItem> = emptyList(),
   answers: Map<Int, Boolean?>,
-  onAnswerSelected: (Int, Boolean) -> Unit
+  onAnswerSelected: (Int, Boolean) -> Unit,
+  onSubmitClicked: () -> Unit
 ) {
   Column(
     modifier = Modifier
@@ -101,7 +106,7 @@ fun SurveyContent(
     }
 
     Button(
-      onClick = { /* Kirim jawaban */ },
+      onClick = onSubmitClicked,
       modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)

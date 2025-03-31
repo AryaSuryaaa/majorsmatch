@@ -64,7 +64,7 @@ fun OnBoarding(
   ) {
     Image(
       modifier = Modifier.fillMaxSize(),
-      painter = painterResource(id = R.drawable.img_student),
+      painter = painterResource(id = R.drawable.student_img),
       contentDescription = stringResource(R.string.student_image),
       contentScale = ContentScale.Crop
     )

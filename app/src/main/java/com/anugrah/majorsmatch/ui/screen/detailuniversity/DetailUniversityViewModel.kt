@@ -1,22 +1,14 @@
 package com.anugrah.majorsmatch.ui.screen.detailuniversity
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.anugrah.majorsmatch.data.dummy.universityLists
-import com.anugrah.majorsmatch.ui.common.UiState
+import com.anugrah.majorsmatch.domain.model.University
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailUniversityViewModel @Inject constructor(
-
-): ViewModel() {
-  private val _uiState = MutableStateFlow<UiState<DetailUniversityUiState>>(UiState.Loading)
-  val uiState: StateFlow<UiState<DetailUniversityUiState>> = _uiState
-
-  fun getUniversityById(universityId: Int) {
-    val university = universityLists.find { it.id == universityId }
-    _uiState.value = UiState.Success(DetailUniversityUiState(university))
-  }
+  savedStateHandle: SavedStateHandle
+) : ViewModel() {
+  val university: University? = savedStateHandle.get<University>("university")
 }

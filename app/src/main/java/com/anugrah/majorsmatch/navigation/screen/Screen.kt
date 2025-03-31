@@ -1,5 +1,7 @@
 package com.anugrah.majorsmatch.navigation.screen
 
+import com.anugrah.majorsmatch.domain.model.University
+
 sealed class Screen(val route: String) {
   data object Splash : Screen("splash_screen")
   data object OnBoarding : Screen("on_boarding_screen")
@@ -8,11 +10,8 @@ sealed class Screen(val route: String) {
   data object Home : Screen("home_screen")
   data object Explore : Screen("explore_screen")
   data object Profile : Screen("profile_screen")
-  data object DetailUniversity : Screen("detail_university_screen/{universityId}") {
-    fun withArgs(universityId: Int): String {
-      return "detail_university_screen/$universityId"
-    }
-  }
+  data object DetailUniversity : Screen("detail_university_screen")
   data object Survey : Screen("survey_screen")
   data object Feedback : Screen("feedback_screen")
+  data object Result : Screen("result_screen")
 }

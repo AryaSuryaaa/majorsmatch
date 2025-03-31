@@ -2,10 +2,9 @@ package com.anugrah.majorsmatch.navigation.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.screen.detailuniversity.DetailUniversityScreen
 import com.anugrah.majorsmatch.ui.screen.explore.ExploreScreen
@@ -15,6 +14,7 @@ import com.anugrah.majorsmatch.ui.screen.login.LoginScreen
 import com.anugrah.majorsmatch.ui.screen.onboarding.OnBoardingScreen
 import com.anugrah.majorsmatch.ui.screen.profile.ProfileScreen
 import com.anugrah.majorsmatch.ui.screen.register.RegisterScreen
+import com.anugrah.majorsmatch.ui.screen.result.ResultScreen
 import com.anugrah.majorsmatch.ui.screen.splash.SplashScreen
 import com.anugrah.majorsmatch.ui.screen.survey.SurveyScreen
 
@@ -50,19 +50,25 @@ fun MainNavGraph(navController: NavHostController, startDestination: String = Sc
       ProfileScreen(navHostController = navController)
     }
     composable(
-      route = Screen.DetailUniversity.route,
-      arguments = listOf(
-        navArgument("universityId") { type = NavType.IntType }
-      )
-    ) { backStackEntry ->
-      val universityId = backStackEntry.arguments?.getInt("universityId") ?: 0
-      DetailUniversityScreen(universityId = universityId, navHostController = navController)
+      route = Screen.DetailUniversity.route
+    ) {
+      val university = navController.previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<University>("university")
+
+      if (university != null) {
+        DetailUniversityScreen(navHostController = navController)
+      }
     }
+
     composable(route = Screen.Survey.route) {
       SurveyScreen(navHostController = navController)
     }
     composable(route = Screen.Feedback.route) {
       FeedbackScreen(navHostController = navController)
+    }
+    composable(route = Screen.Result.route) {
+      ResultScreen(navHostController = navController)
     }
   }
 }

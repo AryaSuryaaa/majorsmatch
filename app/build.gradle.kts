@@ -6,6 +6,7 @@ plugins {
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.googleDevtoolsKsp)
   alias(libs.plugins.daggerHilt)
+  id("kotlin-parcelize")
 }
 
 fun getProperties(key: String): String? {
