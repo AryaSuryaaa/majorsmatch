@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.anugrah.majorsmatch.data.remote.apiresponse.SurveyResponse
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.navigation.screen.Screen
 import com.anugrah.majorsmatch.ui.screen.detailuniversity.DetailUniversityScreen
@@ -68,7 +69,13 @@ fun MainNavGraph(navController: NavHostController, startDestination: String = Sc
       FeedbackScreen(navHostController = navController)
     }
     composable(route = Screen.Result.route) {
-      ResultScreen(navHostController = navController)
+      val surveyResponse = navController.previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<SurveyResponse>("surveyResponse")
+
+      if (surveyResponse != null) {
+        ResultScreen(navHostController = navController)
+      }
     }
   }
 }

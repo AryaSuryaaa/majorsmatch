@@ -62,7 +62,7 @@ fun RegisterScreen(
       }
       is ResultState.Success -> {
         mainActivity.loaderState.value = false
-        context.showToast("Register Success")
+        context.showToast(context.getString(R.string.register_success))
         navHostController.popBackStack()
       }
       is ResultState.Error -> {

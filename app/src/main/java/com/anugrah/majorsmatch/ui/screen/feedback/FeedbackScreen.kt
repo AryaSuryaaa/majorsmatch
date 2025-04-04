@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -20,7 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,8 +43,7 @@ import com.anugrah.majorsmatch.utils.showToast
 @Composable
 fun FeedbackScreen(
   navHostController: NavHostController,
-  viewModel: FeedbackViewModel = hiltViewModel(),
-  modifier: Modifier = Modifier
+  viewModel: FeedbackViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsState()
   val context = LocalContext.current
@@ -156,7 +152,7 @@ fun SubmitFeedBack(
     OutlinedTextField (
       value = text,
       onValueChange = { updateInputTestimony(it) },
-      label = { Text(text = "Input feedback here") },
+      label = { Text(text = stringResource(R.string.input_feedback_here)) },
       modifier = Modifier
         .padding(bottom = DIMENS_16dp)
         .fillMaxWidth()

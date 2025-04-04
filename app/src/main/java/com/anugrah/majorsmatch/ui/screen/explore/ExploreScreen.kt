@@ -53,11 +53,6 @@ fun ExploreScreen(
     query = uiState.query,
     onQueryChange = { viewModel.updateQuery(it) },
     toDetailUniversity = { university ->
-//      navHostController.navigate(
-//        Screen.DetailUniversity.withArgs(
-//          university
-//        )
-//      )
       navHostController.currentBackStackEntry?.savedStateHandle?.set("university", university)
       navHostController.navigate(Screen.DetailUniversity.route)
     },

@@ -63,7 +63,7 @@ fun HomeScreen(
   viewModel: HomeViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsState()
-  val context = LocalContext.current
+  LocalContext.current
 
   LaunchedEffect(Unit) {
     viewModel.getUserSession()
@@ -77,11 +77,6 @@ fun HomeScreen(
       listUniversity = uiState.universities,
       testimony = uiState.testimony,
       toDetailUniversity = { university ->
-//        navHostController.navigate(
-//          Screen.DetailUniversity.withArgs(
-//            university
-//          )
-//        )
         navHostController.currentBackStackEntry?.savedStateHandle?.set("university", university)
         navHostController.navigate(Screen.DetailUniversity.route)
       },
@@ -135,7 +130,7 @@ fun HeaderHome(name: String, modifier: Modifier = Modifier) {
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Text("Selamat datang $name!") // change Name
+    Text(stringResource(R.string.welcome, name))
     Image(
       painter = painterResource(id = R.drawable.logo_app),
       contentDescription = "logo app",

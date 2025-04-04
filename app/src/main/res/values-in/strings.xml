@@ -36,4 +36,16 @@
     <string name="give_feedback">Berikan umpan balik</string>
     <string name="submit">Kirim</string>
     <string name="submit_success">Kirim data berhasil</string>
+    <string name="please_answer_all_questions">Tolong jawab semua pertanyaan</string>
+    <string name="welcome">Selamat datang %1$s!</string>
+    <string name="university_not_found">Universitas tidak ditemukan</string>
+    <string name="input_feedback_here">Masukan feedback disini</string>
+    <string name="login_success">Login berhasil</string>
+    <string name="select_theme">Pilih Tema</string>
+    <string name="light">Terang</string>
+    <string name="dark">Gelap</string>
+    <string name="auto">Otomatis</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="cancel">Batal</string>
+    <string name="register_success">Pendaftaran berhasil</string>
 </resources>

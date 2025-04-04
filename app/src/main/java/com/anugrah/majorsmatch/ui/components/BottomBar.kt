@@ -39,7 +39,6 @@ fun BottomBarApp(
         val bottomNavRoutes = listOf(Screen.Home.route, Screen.Explore.route, Screen.Profile.route)
 
         BackHandler(enabled = currentRoute in bottomNavRoutes) {
-            // Jika di tab bottom navigation, misalnya keluar dari aplikasi
             (context as? Activity)?.finish()
         }
 

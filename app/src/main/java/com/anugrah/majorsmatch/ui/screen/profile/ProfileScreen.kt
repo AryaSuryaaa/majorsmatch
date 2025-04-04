@@ -250,10 +250,14 @@ fun ThemeDialog(
     var selectedTheme by remember { mutableStateOf(currentTheme) }
     AlertDialog(
       onDismissRequest = onDismiss,
-      title = { Text(text = "Pilih Tema") },
+      title = { Text(text = stringResource(R.string.select_theme)) },
       text = {
         Column {
-          val themes = listOf("Light", "Dark", "Auto")
+          val themes = listOf(
+            stringResource(R.string.light),
+            stringResource(R.string.dark),
+            stringResource(R.string.auto)
+          )
           themes.forEach { theme ->
             Row(
               verticalAlignment = Alignment.CenterVertically,
@@ -273,12 +277,12 @@ fun ThemeDialog(
       },
       confirmButton = {
         Button(onClick = { onConfirm(selectedTheme) }) {
-          Text(text = "Confirm")
+          Text(text = stringResource(R.string.confirm))
         }
       },
       dismissButton = {
         Button(onClick = onDismiss) {
-          Text(text = "Cancel")
+          Text(text = stringResource(R.string.cancel))
         }
       }
     )
@@ -297,7 +301,7 @@ fun LanguageDialog(
     val languageOptions = listOf("en" to "English", "in" to "Bahasa Indonesia")
     AlertDialog(
       onDismissRequest = onDismiss,
-      title = { Text(text = "Pilih Bahasa") },
+      title = { Text(text = "Select Language") },
       text = {
         Column {
           languageOptions.forEach { (code, name) ->
@@ -319,12 +323,12 @@ fun LanguageDialog(
       },
       confirmButton = {
         Button(onClick = { onConfirm(selectedLanguage) }) {
-          Text(text = "Confirm")
+          Text(text = stringResource(R.string.confirm))
         }
       },
       dismissButton = {
         Button(onClick = onDismiss) {
-          Text(text = "Cancel")
+          Text(text = stringResource(R.string.cancel))
         }
       }
     )
@@ -340,7 +344,7 @@ fun LogoutButton(onClick: () -> Unit) {
     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
     modifier = Modifier.fillMaxWidth()
   ) {
-    Text(text = "Log out")
+    Text(text = stringResource(R.string.log_out))
   }
 }
 
@@ -368,12 +372,4 @@ private fun ThemePreview() {
     currentTheme = "Dark",
     onDismiss = {}
   ) { }
-}
-
-fun getLanguageDisplayName(code: String): String {
-  return when (code) {
-    "en" -> "English"
-    "in" -> "Bahasa Indonesia"
-    else -> "Unknown"
-  }
 }

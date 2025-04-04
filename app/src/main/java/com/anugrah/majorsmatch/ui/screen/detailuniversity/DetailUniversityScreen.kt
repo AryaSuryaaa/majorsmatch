@@ -53,7 +53,7 @@ fun DetailUniversityScreen(
     ?.get<University>("university")
 
   if (university == null) {
-    Text("University not found")
+    Text(stringResource(R.string.university_not_found))
     return
   }
 

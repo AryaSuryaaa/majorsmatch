@@ -45,4 +45,16 @@
     <string name="give_feedback">Give feedback</string>
     <string name="submit">Submit</string>
     <string name="submit_success">Submit Success</string>
+    <string name="please_answer_all_questions">Please answer all questions</string>
+    <string name="welcome">Welcome %1$s!</string>
+    <string name="university_not_found">University not found</string>
+    <string name="input_feedback_here">Input feedback here</string>
+    <string name="login_success">Login Success</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="auto">Auto</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="register_success">Register Success</string>
 </resources>

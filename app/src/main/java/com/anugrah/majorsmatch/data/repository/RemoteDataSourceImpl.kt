@@ -5,13 +5,15 @@ import com.anugrah.majorsmatch.data.remote.api.ApiService
 import com.anugrah.majorsmatch.data.remote.apirequest.LoginRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.RegisterRequest
 import com.anugrah.majorsmatch.data.remote.apirequest.SubmitFeedbackRequest
-import com.anugrah.majorsmatch.data.remote.apiresponse.Data
+import com.anugrah.majorsmatch.data.remote.apirequest.SurveyRequest
 import com.anugrah.majorsmatch.data.remote.apiresponse.DataUniversity
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetQuestionResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.GetTestimonyResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.LoginResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.RegisterResponse
 import com.anugrah.majorsmatch.data.remote.apiresponse.SubmitFeedbackResponse
+import com.anugrah.majorsmatch.data.remote.apiresponse.SurveyResponse
+import com.anugrah.majorsmatch.domain.model.SurveyAnswer
 import com.anugrah.majorsmatch.domain.model.University
 import com.anugrah.majorsmatch.domain.model.toUniversity
 import com.anugrah.majorsmatch.domain.repository.IRemoteDataSource
@@ -60,5 +62,9 @@ class RemoteDataSourceImpl @Inject constructor(
     emit(response)
   }
 
+  override fun postSurvey(param: List<SurveyAnswer>): Flow<SurveyResponse> = flow {
+    val response = apiService.postSurvey(param)
+    emit(response)
+  }
 
 }

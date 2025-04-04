@@ -61,7 +61,7 @@ fun LoginScreen(
       }
       is ResultState.Success -> {
         mainActivity.loaderState.value = false
-        context.showToast("Login Success")
+        context.showToast(context.getString(R.string.login_success))
         navHostController.popBackStack()
         navHostController.navigate(Screen.Home.route) {
           popUpTo(Screen.Login.route) { inclusive = true }
@@ -119,7 +119,7 @@ fun LoginContent(
         .fillMaxWidth(),
     )
     Text(
-      text = "LOGIN",
+      text = stringResource(R.string.login).uppercase(),
       textAlign = TextAlign.Center,
       fontSize = 21.sp,
       fontWeight = FontWeight.Bold,
@@ -146,7 +146,7 @@ fun LoginContent(
     Spacer(modifier = Modifier.height(8.dp))
 
     PasswordField(
-      label = "Password",
+      label = stringResource(R.string.password),
       value = loginUiState.password,
       onValueChange = { onPasswordChange(it) },
       modifier = Modifier
